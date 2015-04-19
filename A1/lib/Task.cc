@@ -7,12 +7,14 @@
 #define TASK_CC_
 
 #include "Task.h"
+#include <iostream>
 
 namespace BOOOS
 {
-
+	int Task::_tidCounter;
+	const int stackSize = 32768;
 	volatile Task * Task::__running;
-	volatile Task * Task::__main;
+	Task * Task::__main;
 /*
  * Task.h
  *
@@ -21,17 +23,20 @@ namespace BOOOS
  	Task::Task() {
  		this->_context = new ucontext_t;
  		this->_tid = 0;
+ 		this->_stack = new char[this->stackSize]();
 		this->_context->uc_stack.ss_sp = _stack;
-		this->_context->uc_stack.ss_size = sizeof(_stack);
+		this->_context->uc_stack.ss_size = stackSize;
 	}
 	Task::Task(void (entry_point)(void*), int nargs, void * arg) {
-		this->_state = READY;
-		this->_tid = Task::tidCounter++;
+		this->_state = Task::READY;
+		this->_tid = Task::_tidCounter++;
+		//std::cout << _tid << std::endl;
 		this->_context = new ucontext_t;
+		getcontext(this->_context);
+		this->_context->uc_link = __main->_context;
 		this->_stack = new char[this->stackSize]();
-		//this->_context->uc_link = __main;
 		this->_context->uc_stack.ss_sp = _stack;
-		this->_context->uc_stack.ss_size = sizeof(_stack);
+		this->_context->uc_stack.ss_size = stackSize;
 		makecontext(this->_context, (void (*)(void)) entry_point, nargs, arg);
 	}
 	Task::~Task() {
@@ -46,14 +51,14 @@ namespace BOOOS
 	}
 
 	void Task::exit(int code) {
-		this->exit(0);
+		this->pass_to(Task::__main, Task::FINISHING);
 	}
 
 	void Task::init() {
 		__main = new Task();
  		__main->_state = RUNNING;
 		__running = __main;
-		Task::tidCounter = 0;
+		Task::_tidCounter = 1;
 	}
 	// ...
 

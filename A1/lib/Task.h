@@ -41,21 +41,14 @@ private:
 	Task();
 
 	static volatile Task * __running;
-	static volatile Task * __main;
-
-	void setState(State state) {
-		this->_state = state;
-	}
-	ucontext_t* getContext() {
-		return this->_context;
-	}
+	static Task * __main;
 
 	State _state;
 	int _tid; // task ID
 	ucontext_t *_context;
 	char* _stack;
-	static int tidCounter;
-	const int stackSize = 32768;
+	static int _tidCounter;
+	static const int stackSize = 32768;
 	//Task* __running;
 	//Task* __main;
 	// ...
