@@ -40,8 +40,8 @@ namespace BOOOS
 		makecontext(this->_context, (void (*)(void)) entry_point, nargs, arg);
 	}
 	Task::~Task() {
-		//delete[] _stack;
-		//delete[] _context;
+		delete _stack;
+		delete _context;
 	}
 
 	void Task::pass_to(Task * t, State s) {
