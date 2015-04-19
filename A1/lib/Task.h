@@ -8,52 +8,52 @@
 #define TASK_H_
 
 #include "Queue.h"
- #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <ucontext.h>
 
 namespace BOOOS {
 
-class Task : public Queue::Element {
-public:
-	enum State {
-		READY,
-		WAITING,
-		RUNNING,
-		FINISHING
+	class Task : public Queue::Element {
+	 public:
+		enum State {
+			READY,
+			WAITING,
+			RUNNING,
+			FINISHING
+		};
+
+		Task(void (entry_point)(void*), int nargs, void * arg);
+
+		virtual ~Task();
+
+		int tid() { return _tid; }
+		State state() { return _state; }
+
+		void pass_to(Task * t, State s = READY);
+
+		void exit(int code);
+
+		static Task * self() { return (Task*) __running; }
+		static void init();
+
+	 private:
+
+		Task();
+
+		static volatile Task * __running;
+		static Task * __main;
+		ucontext_t* getContx() {
+			return &_context;
+		}
+		State _state;
+		int _tid; // task ID
+		ucontext_t _context;
+		char* _stack;
+		static int _tidCounter;
+		static const int stackSize = 32768;
 	};
 
-	Task(void (entry_point)(void*), int nargs, void * arg);
-	virtual ~Task();
-
-	int tid() { return _tid; }
-	State state() { return _state; }
-
-	void pass_to(Task * t, State s = READY);
-
-	void exit(int code);
-
-	static Task * self() { return (Task*) __running; }
-	static void init();
-
-private:
-
-	Task();
-
-	static volatile Task * __running;
-	static Task * __main;
-
-	State _state;
-	int _tid; // task ID
-	ucontext_t *_context;
-	char* _stack;
-	static int _tidCounter;
-	static const int stackSize = 32768;
-	//Task* __running;
-	//Task* __main;
-	// ...
-};
-
-} /* namespace BOOOS */
+}
 
 #endif /* TASK_H_ */
