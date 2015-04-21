@@ -50,7 +50,7 @@ namespace BOOOS {
 		int _tid; // task ID
 		ucontext_t _context;
 		char* _stack;
-		static int _tidCounter;
+		static int __tid_counter;
 		static const int stackSize = 32768;
 	};
 

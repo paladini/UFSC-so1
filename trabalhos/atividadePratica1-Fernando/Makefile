@@ -16,6 +16,8 @@ clean: FORCE
 	(cd $(LIBDIR) && make clean)
 	(cd $(TESTDIR) && make clean)
 	rm -f *.o booos core*
+	clear
+	clear
 
 FORCE: 
 	
