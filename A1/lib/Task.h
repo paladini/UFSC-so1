@@ -23,7 +23,9 @@ namespace BOOOS {
 			FINISHING
 		};
 
-		Task(void (entry_point)(void*), int nargs, void * arg);
+		Task(void (*entry_point)(void), int nargs, void * arg);
+
+		Task(void (*entry_point)(void*), int nargs, void * arg);
 
 		virtual ~Task();
 
@@ -41,11 +43,10 @@ namespace BOOOS {
 
 		Task();
 
+
 		static volatile Task * __running;
 		static Task * __main;
-		ucontext_t* getContx() {
-			return &_context;
-		}
+		
 		State _state;
 		int _tid; // task ID
 		ucontext_t _context;

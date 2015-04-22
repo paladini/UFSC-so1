@@ -17,18 +17,17 @@ namespace BOOOS
 	Task * Task::__main;
 
  	Task::Task() {
- 		getcontext(&(this->_context));
  		this->_tid = 0;
  		this->_stack = new char[this->stackSize];
 		this->_context.uc_stack.ss_sp = _stack;
 		this->_context.uc_stack.ss_size = stackSize;
 	}
 
-	Task::Task(void (entry_point)(void*), int nargs, void * arg) {
+	Task::Task(void (*entry_point)(void*), int nargs, void * arg) {
 		this->_state = Task::READY;
-		this->_tid = Task::_tidCounter++;
+		this->_tid = ++Task::_tidCounter;
 		getcontext(&(this->_context));
-		this->_context.uc_link = &__main->_context;
+		this->_context.uc_link = (ucontext_t*)&__running->_context;
 		this->_stack = new char[this->stackSize];
 		this->_context.uc_stack.ss_sp = _stack;
 		this->_context.uc_stack.ss_size = stackSize;
@@ -54,7 +53,7 @@ namespace BOOOS
 		__main = new Task();
  		__main->_state = RUNNING;
 		__running = __main;
-		Task::_tidCounter = 2;
+		Task::_tidCounter = 1;
 	}
 
 }

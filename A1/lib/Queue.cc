@@ -11,24 +11,21 @@
 namespace BOOOS {
 
 
-// Queue constructor: must initialize queue's attributes
-	Queue::Queue() { _length = 0;}
+	Queue::Queue() {
+		_head.next(0);
+		_head.prev(0);
+		_length = 0;
 
-// Queue destructor: must finalize queue's attributes
+	}
+
 	Queue::~Queue() {}
 
 
-// insert method: must insert the Element at the end of the queue
-// Error messages:
-//   01: invalid Element (if elem == 0)
-//   02: duplicated Element (if elem already is on the queue)
+
 	void Queue::insert(Element * elem) {
 		if (elem == 0) {
 			throw -2;
 		}
-		// if (elem == search(elem)) {
-		// 	throw -3;
-		// }
 		if (_length > 0) {
 			Element *last = _head.prev();
 			last->next(elem);
@@ -45,9 +42,6 @@ namespace BOOOS {
 		_length++;
 	}
 
-// remove: must search and remove the element from the queue
-// Error messages:
-//   01: queue is empty
 	Queue::Element * Queue::remove() {
 		if (_length == 0) {
 			throw -1; /* Fila vazia */
@@ -61,16 +55,6 @@ namespace BOOOS {
 		return originalHead;
 	}
 
-	// Queue::Element* Queue::search(Queue::Element* elem) {
-	// 	Element* actual = _head.next;
-	// 	for (int i = 0; i < _length; i++) {
-	// 		if (elem == *actual) {
-	// 			return actual;
-	// 		}
-	// 	}
-	// 	actual = actual.next;
-	// 	throw -4; /* Doesn't have the element*/
-	// }
 
 }
 #endif
