@@ -54,7 +54,7 @@ namespace BOOOS
 		__main = new Task();
  		__main->_state = RUNNING;
 		__running = __main;
-		Task::_tidCounter = 1;
+		Task::_tidCounter = 2;
 	}
 
 }

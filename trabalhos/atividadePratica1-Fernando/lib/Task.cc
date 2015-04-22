@@ -12,6 +12,7 @@ namespace BOOOS
 	volatile Task * Task::__running;
 	Task * Task::__main;
 	int Task::__tid_counter;
+	const int _STACK_SIZE = 32768;
 
 	Task::Task() {
 		this->_tid = 0;
@@ -19,10 +20,10 @@ namespace BOOOS
 	}
 
 	Task::Task(void (*entry_point)(void*), int nargs, void * arg) {
-		this->_tid = Task::__tid_counter++;
+		this->_tid = ++Task::__tid_counter;
 		this->_state = Task::READY;
 		getcontext(&(this->_context));
-		this->_context.uc_link = &__main->_context;
+		this->_context.uc_link = (ucontext_t*)&__running->_context;
 		this->allocate_stack();
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 	}
