@@ -1,4 +1,4 @@
-/*
+/* Emmanuel Podestá Junior, Fernando Paladini.
  * BOOOS.h
  *
  *  Created on: Aug 14, 2014
