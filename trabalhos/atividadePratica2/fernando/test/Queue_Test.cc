@@ -24,6 +24,56 @@ private:
 	string _name;
 };
 
+/*
+	 Init of methods created by @paladini.
+*/
+class MyInt : public Queue::Element {
+public:
+	MyInt(int n) : _number(n) {}
+
+	virtual ~MyElement() {}
+
+	int & number() { return _number; }
+
+private:
+	int _number;
+};
+
+int test_ordered_insertion() {
+	Queue q;
+
+	MyElement* person1 = new MyElement();
+}
+
+int test_remotion_by_element() {
+	Queue q;
+	MyElement* person1, person2, person3, person4;
+	person1 = new MyElement("João");
+	person2 = new MyElement("Pedro");
+	person3 = new MyElement("Augusto");
+	person4 = new MyElement("Fábio");
+
+	q.insert(person1);
+	q.insert(person2);
+	q.insert(person3);
+	q.insert(person4);
+	q.remove(person3);
+
+	ASSERT(q.head()->next()->next()->next() == person4, 1);
+	ASSERT(q.head()->prev()->prev() == person2, 2);
+
+	//ASSERT(person2->prev() == q.head()->prev(), 2);
+	//ASSERT(q.head()->prev()->next() == person2, 3);
+
+	return 0;
+}
+
+/* 
+
+	END of methods created by @paladini.
+
+*/
+
 void print_queue(Queue & q) {
 	cout << "Queue length: " << q.length() << endl;
 
@@ -78,6 +128,8 @@ int test_insertion() {
 	return 0;
 }
 
+
+
 int test_remotion() {
 	Queue q;
 
@@ -110,6 +162,7 @@ int main() {
 	tests.attach_test(&test_creation_destruction, "Creation and Destruction");
 	tests.attach_test(&test_insertion, "Insertion");
 	tests.attach_test(&test_remotion, "Remotion");
+	tests.attach_test(&test_remotion_by_element, "Remotion by element");
 
 	tests.run();
 

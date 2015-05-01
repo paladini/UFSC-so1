@@ -6,6 +6,7 @@
 #ifndef QUEUE_CC_
 #define QUEUE_CC_
 #include "Queue.h"
+#include <iostream>
 #include <cstdlib>
 
 namespace BOOOS {
@@ -110,6 +111,7 @@ namespace BOOOS {
             temp->prev()->next(temp->next());
             temp->next()->prev(temp->prev());
             delete temp;
+            temp = NULL;
             _length--; 
         } else {
             throw -3;
