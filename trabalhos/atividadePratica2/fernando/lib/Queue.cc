@@ -34,19 +34,45 @@ namespace BOOOS {
             _head.next(elem);
             _head.prev(elem);
             elem->next(elem);
-            elem->next(elem);
+            elem->prev(elem); // antes estava next aqui
         }
         _length++;
     }
 
-    // to be checked by @EPodesta
+    // Temp.
     void Queue::insert_ordered(Element * elem) {
         if (elem == 0) {
             throw -2;
         }
         if (_length > 0) {
-            Element* temp = _head.next(); // don't know if must be _head->next() or just _head.
-            bool exist = true;
+            Element* temp = _head.next();
+            int count = 0;
+
+            while(count < _length) {
+                if (temp >= elem) {
+                    temp = temp->next();
+                } else {
+                    break;
+                }
+                count++;
+            }
+
+            temp = temp->prev();
+            elem->next(temp->next());
+            elem->prev(temp);
+            temp->next()->prev(elem);
+            temp->next(elem);
+            _length++;
+
+            if(count == _length) {
+                _head.prev(elem);
+            }
+            if(count == 1) {
+
+            }
+            /* bool exist = true;
+
+
 
             if(temp > elem) {
                 temp = temp->next();
@@ -59,7 +85,7 @@ namespace BOOOS {
                 }
             }            
 
-            // Don't care if temp == elem or temp < elem.
+            // Don't care if temp == elem or temp < elem, always will add before.
             if (exist) {
                 temp = temp->prev();
                 elem->next(temp->next());
@@ -67,7 +93,7 @@ namespace BOOOS {
                 temp->next()->prev(elem);
                 temp->next(elem);
                 _length++;
-            } 
+            } */
         } else {
             insert(elem);
         }
