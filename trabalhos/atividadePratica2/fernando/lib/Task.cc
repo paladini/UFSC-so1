@@ -3,7 +3,8 @@
  *
  *  Created on: Feb 27, 2014
  */
-
+#ifndef TASK_CC_
+#define TASK_CC_
 #include "Task.h"
 namespace BOOOS
 {
@@ -12,6 +13,7 @@ namespace BOOOS
 	Task * Task::__main;
 	int Task::__tid_counter;
 	Queue Task::__ready;
+	int Task::__task_counter;
 	const int _STACK_SIZE = 32768;
 
 	Task::Task() {
@@ -28,7 +30,7 @@ namespace BOOOS
 
 		// Adding to queue
 		__ready.insert(this);
-
+		__task_counter++;
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 	}
 
@@ -41,11 +43,12 @@ namespace BOOOS
 		__main->_state = Task::RUNNING;
 		__running = __main;
 		__tid_counter = 1;
+		__task_counter = 0;
 	}
 
-	// void Task::yield() {
-	// 	pass_to(, Task::READY); // arumar, não é this, tem que passar para o escalonador.
-	// }
+	void Task::yield() {
+		pass_to(Task::__main, Task::READY); // arumar, não é this, tem que passar para o escalonador.
+	}
 
 	void Task::pass_to(Task * t, State s) {
 		if (this->_state == SCHEDULER) {
@@ -62,7 +65,7 @@ namespace BOOOS
 	void Task::exit(int code) {
 		// Removing the task from ready queue.
 		__ready.remove(this);
-
+		__task_counter--;
 		this->pass_to(Task::__main, Task::FINISHING);
 	}
 
@@ -73,3 +76,4 @@ namespace BOOOS
 	}
 
 } /* namespace BOOOS */
+#endif

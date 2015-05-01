@@ -7,8 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include <queue>
-#include <BOOOS.h>
-#include <Scheduler.h>
+#include "../lib/BOOOS.h"
+#include "../lib/Scheduler.h"
 #include "test_scaffold.h"
 
 using namespace std;

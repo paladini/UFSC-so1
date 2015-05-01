@@ -7,7 +7,6 @@
 #ifndef BOOOS_H_
 #define BOOOS_H_
 // #include "Scheduler.h"
-
 namespace BOOOS {
 
 /* Configuration Space */

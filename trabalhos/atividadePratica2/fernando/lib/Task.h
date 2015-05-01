@@ -32,7 +32,7 @@ public:
 	void yield();
 	void pass_to(Task * t, State s = READY);
 	void exit(int code);
-
+	static int count() { return __task_counter;}
 	static Task * self() { return (Task*) __running; }
 	static void init();
 
@@ -46,6 +46,7 @@ private:
 	static int __tid_counter;
 	static Queue __ready;
 	static const int _STACK_SIZE = 32768;
+	static 	int __task_counter;
 
 	State _state;
 	int _tid; // task ID
