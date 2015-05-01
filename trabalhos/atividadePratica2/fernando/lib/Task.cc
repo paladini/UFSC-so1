@@ -12,7 +12,7 @@ namespace BOOOS
 	volatile Task * Task::__running;
 	Task * Task::__main;
 	int Task::__tid_counter;
-	Queue __ready;
+	Queue Task::__ready;
 	const int _STACK_SIZE = 32768;
 
 	Task::Task() {
@@ -28,7 +28,7 @@ namespace BOOOS
 		this->allocate_stack();
 
 		// Adding to queue
-		__ready.insert(&this);
+		__ready.insert(this);
 
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 	}
@@ -45,7 +45,7 @@ namespace BOOOS
 	}
 
 	void Task::yield() {
-		pass_to(&this, Task::SCHEDULER); // arumar, não é this, tem que passar para o escalonador.
+		pass_to(this, Task::SCHEDULER); // arumar, não é this, tem que passar para o escalonador.
 	}
 
 	void Task::pass_to(Task * t, State s) {

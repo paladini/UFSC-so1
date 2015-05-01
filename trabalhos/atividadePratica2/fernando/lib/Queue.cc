@@ -52,8 +52,8 @@ namespace BOOOS {
                 temp = temp->next();
                 while (temp > elem) {
                     temp = temp->next();
-                    if (&temp == &_head.next()) {
-                        found = false;
+                    if (temp == _head.next()) {
+                        exist = false;
                         break;
                     }
                 }
@@ -101,7 +101,7 @@ namespace BOOOS {
             temp = temp->next();
             while (temp != e) {
                 temp = temp->next();
-                if (&temp == &_head.next()) {
+                if (temp == _head.next()) {
                     exist = false;
                 }
             }
@@ -133,7 +133,7 @@ namespace BOOOS {
             temp = temp->next();
             while (temp != elem) {
                 temp = temp->next();
-                if (&temp == &_head.next()) {
+                if (temp == _head.next()) {
                     exist = false;
                 }
             }

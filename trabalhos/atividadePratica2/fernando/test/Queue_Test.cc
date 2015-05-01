@@ -27,31 +27,12 @@ private:
 /*
 	 Init of methods created by @paladini.
 */
-class MyInt : public Queue::Element {
-public:
-	MyInt(int n) : _number(n) {}
-
-	virtual ~MyElement() {}
-
-	int & number() { return _number; }
-
-private:
-	int _number;
-};
-
-int test_ordered_insertion() {
-	Queue q;
-
-	MyElement* person1 = new MyElement();
-}
-
 int test_remotion_by_element() {
 	Queue q;
-	MyElement* person1, person2, person3, person4;
-	person1 = new MyElement("João");
-	person2 = new MyElement("Pedro");
-	person3 = new MyElement("Augusto");
-	person4 = new MyElement("Fábio");
+	MyElement* person1 = new MyElement("João");
+	MyElement* person2 = new MyElement("Pedro");
+	MyElement* person3 = new MyElement("Augusto");
+	MyElement* person4 = new MyElement("Fábio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -62,11 +43,10 @@ int test_remotion_by_element() {
 	ASSERT(q.head()->next()->next()->next() == person4, 1);
 	ASSERT(q.head()->prev()->prev() == person2, 2);
 
-	//ASSERT(person2->prev() == q.head()->prev(), 2);
-	//ASSERT(q.head()->prev()->next() == person2, 3);
-
 	return 0;
 }
+
+// I will make more methods here.
 
 /* 
 
@@ -162,6 +142,8 @@ int main() {
 	tests.attach_test(&test_creation_destruction, "Creation and Destruction");
 	tests.attach_test(&test_insertion, "Insertion");
 	tests.attach_test(&test_remotion, "Remotion");
+
+	// Tests by @paladini.
 	tests.attach_test(&test_remotion_by_element, "Remotion by element");
 
 	tests.run();

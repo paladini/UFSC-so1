@@ -21,33 +21,33 @@ namespace BOOOS {
 
                         Element * prev() { return _prev; }
                         Element * next() { return _next; }
-                        int rank() { return _rank; }
+                        int rank() const { return _rank; }
                         void prev(Element * p) { _prev = p; }
                         void next(Element * p) { _next = p; }
                         void rank(int r) { _rank = r; }
 
-                        bool operator==(const Element& lhs, const Element& rhs) {
-                            return lhs.rank() == rhs.rank();
+                        bool operator==(const Element& rhs) const {
+                            return this->rank() == rhs.rank();
                         }
 
-                        bool operator!=(const Element& lhs, const Element& rhs) {
-                            return lhs.rank() != rhs.rank();
+                        bool operator!=(const Element& rhs) const {
+                            return this->rank() != rhs.rank();
                         }
 
-                        bool operator> (const Element& lhs, const Element& rhs) {
-                            return lhs.rank() > rhs.rank();
+                        bool operator> (const Element& rhs) const {
+                            return this->rank() > rhs.rank();
                         }
 
-                        bool operator< (const Element& lhs, const Element& rhs) {
-                            return lhs.rank() < rhs.rank();
+                        bool operator< (const Element& rhs) const {
+                            return this->rank() < rhs.rank();
                         }
 
-                        bool operator<=(const Element& lhs, const Element& rhs) {
-                            return lhs.rank() <= rhs.rank();
+                        bool operator<=(const Element& rhs) const {
+                            return this->rank() <= rhs.rank();
                         }
 
-                        bool operator>=(const Element& lhs, const Element& rhs) {
-                            return lhs.rank() >= rhs.rank();
+                        bool operator>=(const Element& rhs) const {
+                            return this->rank() >= rhs.rank();
                         }
                 private:
                         Element * _prev;
