@@ -28,7 +28,7 @@ namespace BOOOS {
 
 			static void init();
 			static void dispatcher(void*);
-			static Scheduler * self() { return __dispatcher; }
+			static Scheduler * self() { return Scheduler::__dispatcher; }
 		 
 		protected:
 			virtual Task * choose_next();

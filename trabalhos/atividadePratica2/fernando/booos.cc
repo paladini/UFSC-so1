@@ -1,5 +1,5 @@
 #include <iostream>
-#include <BOOOS.h>
+#include "../lib/BOOOS.h"
 
 using namespace std;
 using namespace BOOOS;

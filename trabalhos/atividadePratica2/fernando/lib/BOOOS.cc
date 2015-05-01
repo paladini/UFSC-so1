@@ -3,9 +3,10 @@
 *
 *  Created on: Aug 14, 2014
 */
-
-#include <BOOOS.h>
-#include <Task.h>
+#ifndef TASK_CC_
+#define TASK_CC_
+#include "BOOOS.h"
+#include "Task.h"
 #include <iostream>
 
 namespace BOOOS {
@@ -36,3 +37,4 @@ void BOOOS::panic() {
 }
 
 } /* namespace BOOOS */
+#endif
