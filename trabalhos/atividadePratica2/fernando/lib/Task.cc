@@ -5,7 +5,6 @@
  */
 
 #include "Task.h"
-
 namespace BOOOS
 {
 
@@ -44,14 +43,19 @@ namespace BOOOS
 		__tid_counter = 1;
 	}
 
-	void Task::yield() {
-		pass_to(this, Task::SCHEDULER); // arumar, não é this, tem que passar para o escalonador.
-	}
+	// void Task::yield() {
+	// 	pass_to(, Task::READY); // arumar, não é this, tem que passar para o escalonador.
+	// }
 
 	void Task::pass_to(Task * t, State s) {
-		this->_state = s;
-		__running = t;
-		__running->_state = RUNNING;
+		if (this->_state == SCHEDULER) {
+			__running = t;
+			__running->_state = RUNNING;
+		} else {
+			this->_state = s;
+			__running = t;
+			__running->_state = RUNNING;
+		}
 		swapcontext(&(this->_context), &(t->_context));
 	}
 

@@ -16,8 +16,11 @@ public:
 	BOOOS(bool verbose = true);
 	~BOOOS();
 
-	static const int BOOOS_VERSION = 0;
-
+	// static const int BOOOS_VERSION = 0;
+	// static const BOOOS * __booos = 0;
+	// static const SCHED_TYPE SCHED_POLICY = SCHED_FCFS; // ou outro escalonador. Ajustem como necessário
+	// static const bool SCHED_PREEMPT = false;  // pode ser preemptivo ou não
+	// static const bool SCHED_AGING = false; 
 	void panic();
 
 private:
