@@ -9,7 +9,7 @@
 namespace BOOOS {
 
 	Scheduler::Scheduler() {
-		Scheduler scheduler = new Task(this->dispatcher(),);
+		Scheduler scheduler = new Task(this->dispatcher(),); // 
 		this->_state = Task::SCHEDULER;
 	}
 	Scheduler::~Scheduler() {}

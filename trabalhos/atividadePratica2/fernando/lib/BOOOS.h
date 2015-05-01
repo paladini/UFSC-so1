@@ -6,21 +6,30 @@
 
 #ifndef BOOOS_H_
 #define BOOOS_H_
+// #include "Scheduler.h"
 
 namespace BOOOS {
 
 /* Configuration Space */
 
 class BOOOS {
+
 public:
+
+    //using Scheduler::SchedulerType; - try solve that later.
+	enum SchedulerType {
+		SCHED_FCFS,
+		SCHED_PRIORITY
+	};
+
 	BOOOS(bool verbose = true);
 	~BOOOS();
 
 	// static const int BOOOS_VERSION = 0;
-	// static const BOOOS * __booos = 0;
-	// static const SCHED_TYPE SCHED_POLICY = SCHED_FCFS; // ou outro escalonador. Ajustem como necessário
-	// static const bool SCHED_PREEMPT = false;  // pode ser preemptivo ou não
-	// static const bool SCHED_AGING = false; 
+	static BOOOS * __booos;
+	static BOOOS::SchedulerType SCHED_POLICY; // ou outro escalonador. Ajustem como necessário
+	static bool SCHED_PREEMPT;  // pode ser preemptivo ou não
+	static bool SCHED_AGING; 
 	void panic();
 
 private:

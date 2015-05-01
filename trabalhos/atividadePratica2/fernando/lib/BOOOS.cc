@@ -9,13 +9,11 @@
 #include <iostream>
 
 namespace BOOOS {
-// BOOOS * BOOOS::__booos = 0;
 
-// BOOOS::SCHED_TYPE BOOOS::SCHED_POLICY = BOOOS::SCHED_FCFS; // ou outro escalonador. Ajustem como necessário
-
-// bool BOOOS::SCHED_PREEMPT = false;  // pode ser preemptivo ou não
-
-// bool BOOOS::SCHED_AGING = false; 
+BOOOS * BOOOS::__booos = 0;
+BOOOS::SchedulerType BOOOS::SCHED_POLICY = BOOOS::SCHED_FCFS; // ou outro escalonador. Ajustem como necessário
+bool BOOOS::SCHED_PREEMPT = false;  // pode ser preemptivo ou não
+bool BOOOS::SCHED_AGING = false;  // apenas alguns escalonadores usam aging. Ajustem como necessário
 
 BOOOS::BOOOS(bool verbose) : _verbose(verbose) {
 	if(_verbose) std::cout << "Welcome to BOOOS - Basic Object Oriented Operating System!" << std::endl;
