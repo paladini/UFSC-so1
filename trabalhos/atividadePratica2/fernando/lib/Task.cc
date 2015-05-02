@@ -19,7 +19,8 @@ namespace BOOOS
 
 	Task::Task() {
 		this->_tid = 0;
-		__task_counter++;
+		this->__task_counter++;
+		Task::__ready.insert(this);
 		this->allocate_stack();
 	}
 
@@ -41,11 +42,11 @@ namespace BOOOS
 	}
 
 	void Task::init() {
+		__tid_counter = 1;
+		__task_counter = 0;
 		__main = new Task();
 		__main->_state = Task::RUNNING;
 		__running = __main;
-		// __tid_counter = 0;
-		// __task_counter = 0;
 	}
 
 	void Task::yield() {
@@ -54,13 +55,14 @@ namespace BOOOS
 
 	void Task::pass_to(Task * t, State s) {
 		if (this->_state == SCHEDULER) {
+			this->_state = s;
 			__running = t;
-			__running->_state = RUNNING;
 		} else {
 			this->_state = s;
 			__running = t;
 			__running->_state = RUNNING;
 		}
+		//__ready.insert(t);
 		swapcontext(&(this->_context), &(t->_context));
 	}
 

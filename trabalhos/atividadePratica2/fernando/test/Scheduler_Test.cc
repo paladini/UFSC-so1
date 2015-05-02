@@ -65,7 +65,6 @@ namespace Scheduler_Test_Functions {
 		delete t3;
 		delete t4;
 
-		std::cout << "Magic" << std::endl;
 		Task::self()->exit(0);
 
 		return 0;
@@ -140,6 +139,7 @@ namespace Scheduler_Test_Functions {
 
 		while(Task::count() > 2) {
 			log.push("Main yielding...\n");
+			std::cout << "Magic" << std::endl;
 			Task::self()->yield();
 		}
 

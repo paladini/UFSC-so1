@@ -6,6 +6,7 @@
 #ifndef SCHEDULER_CC_
 #define SCHEDULER_CC_
 #include "Scheduler.h"
+#include "Task.h"
 #include <iostream>
 
 namespace BOOOS {
@@ -20,6 +21,7 @@ namespace BOOOS {
 	}
 
 	void Scheduler::init() {
+		Task::init();
 		Scheduler::__dispatcher = new Scheduler();
 		//Scheduler::__dispatcher->setTid(1);
 	}
@@ -30,8 +32,8 @@ namespace BOOOS {
     	while (Scheduler::ready().length() > 0) {
 			Task *next = Scheduler::self()->choose_next(); 	
 			if (next) {
-				Scheduler::ready().insert(next);
 				Task::self()->pass_to(next, Task::READY);
+				Scheduler::ready().insert(next);
 			}
 		} 
 		Task::self()->exit(0);
