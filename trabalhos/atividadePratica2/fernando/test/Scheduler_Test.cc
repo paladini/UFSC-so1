@@ -10,7 +10,7 @@
 #include "../lib/BOOOS.h"
 #include "../lib/Scheduler.h"
 #include "test_scaffold.h"
-
+#include <iostream>
 using namespace std;
 using namespace BOOOS;
 
@@ -24,11 +24,12 @@ namespace Scheduler_Test_Functions {
 
 		ASSERT(Scheduler::self()->tid() == 1, 1);
 		ASSERT(Scheduler::self()->state() == Task::SCHEDULER, 2);
-		ASSERT(Task::count() == 2, 3);
 
+		ASSERT(Task::count() == 2, 3);
 		Scheduler::init(); // should execute only once!
 		ASSERT(Scheduler::self()->tid() == 1, 4);
 		ASSERT(Scheduler::self()->state() == Task::SCHEDULER, 5);
+		std::cout << Task::count() << std::endl;
 		ASSERT(Task::count() == 2, 6);
 
 		Task::self()->exit(0);
@@ -51,7 +52,6 @@ namespace Scheduler_Test_Functions {
 		Task t1(f1, 1, (void*)"f1"), t2(f2, 1, (void*)"f2");
 		Task * t3 = new Task(f3, 1, (void*)"f3");
 		Task * t4 = new Task(f4, 1, (void*)"f4");
-
 		ASSERT(t1.tid() == 2, 1);
 		ASSERT(t1.state() == Task::READY, 2);
 		ASSERT(t2.tid() == 3, 3);
@@ -65,6 +65,7 @@ namespace Scheduler_Test_Functions {
 		delete t3;
 		delete t4;
 
+		std::cout << "Magic" << std::endl;
 		Task::self()->exit(0);
 
 		return 0;

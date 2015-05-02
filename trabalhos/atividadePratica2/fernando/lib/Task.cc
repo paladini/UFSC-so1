@@ -9,29 +9,30 @@
 #include "Scheduler.h"
 namespace BOOOS
 {
-	Scheduler* Scheduler::__dispatcher;
+	//Scheduler* Scheduler::__dispatcher;
 	volatile Task * Task::__running;
 	Task * Task::__main;
-	int Task::__tid_counter;
+	int Task::__tid_counter = 1;
 	Queue Task::__ready;
-	int Task::__task_counter;
+	int Task::__task_counter = 0;
 	const int _STACK_SIZE = 32768;
 
 	Task::Task() {
 		this->_tid = 0;
+		__task_counter++;
 		this->allocate_stack();
 	}
 
 	Task::Task(void (*entry_point)(void*), int nargs, void * arg) {
-		this->_tid = ++Task::__tid_counter;
+		this->_tid = Task::__tid_counter++;
 		this->_state = Task::READY;
+		this->__task_counter++;
 		getcontext(&(this->_context));
 		this->_context.uc_link = (ucontext_t*)&__running->_context;
 		this->allocate_stack();
 
 		// Adding to queue
 		__ready.insert(this);
-		__task_counter++;
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 	}
 
@@ -43,12 +44,12 @@ namespace BOOOS
 		__main = new Task();
 		__main->_state = Task::RUNNING;
 		__running = __main;
-		__tid_counter = 1;
-		__task_counter = 0;
+		// __tid_counter = 0;
+		// __task_counter = 0;
 	}
 
 	void Task::yield() {
-		this->pass_to(Scheduler::self(), Task::READY); // arumar, não é this, tem que passar para o escalonador.
+		this->pass_to(Scheduler::__dispatcher, Task::READY); // arumar, não é this, tem que passar para o escalonador.
 	}
 
 	void Task::pass_to(Task * t, State s) {
