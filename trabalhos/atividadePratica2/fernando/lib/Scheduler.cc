@@ -6,39 +6,36 @@
 #ifndef SCHEDULER_CC_
 #define SCHEDULER_CC_
 #include "Scheduler.h"
+#include <iostream>
+
 namespace BOOOS {
 
-	Scheduler* Scheduler::__dispatcher;
+	Scheduler* Scheduler::__dispatcher = NULL;
 
-	Scheduler::Scheduler() {
-		Scheduler scheduler = new Task(this->dispatcher(),); // 
-		this->_state = Task::SCHEDULER;
+	Scheduler::Scheduler() : Task(Scheduler::dispatcher, 0, 0) { 
+		this->setState(Task::SCHEDULER);
 	}
 	Scheduler::~Scheduler() {}
 
 	void Scheduler::init() {
 		__dispatcher = new Scheduler();
-		__dispatcher->_tid = 1;
+		__dispatcher->setTid(1);
 	}
-
-	void Scheduler::dispatcher() {
-    	int userTasks = __ready.length();
-	    while(userTasks > 0) {
-	       Task *next = choose_next() ;  // escolher a próxima Task* a executar
-	       if(next != NULL)
-	       {
-	          //... // ações antes de lancar a tarefa "next", se houverem
-	          self()->pass_to(next); // transfere controle para a tarefa "next"
-	          //... // ações apos retornar da tarefa "next", se houverem
-	       }
-	    }
-	    exit(0) ; // encerra a tarefa dispatcher
+	Scheduler* Scheduler::self() {
+		return __dispatcher;
 	}
-
+	void Scheduler::dispatcher(void*) {
+    	while (Scheduler::ready().length() > 0) {
+			Task *next = Scheduler::self()->choose_next(); 	
+			if (next) {
+				Scheduler::ready().insert(next);
+				Scheduler::self()->pass_to(next, Task::READY);
+			}
+		} 
+		Scheduler::self()->exit(0);
+	}
 	Task * Scheduler::choose_next() {
-		Task* task = __ready.remove();
-		__ready.insert(task);
-		return task;
+		return (Task*) Scheduler::ready().remove();
 	}
 	
 

@@ -6,9 +6,10 @@
 #ifndef TASK_CC_
 #define TASK_CC_
 #include "Task.h"
+#include "Scheduler.h"
 namespace BOOOS
 {
-
+	Scheduler* Scheduler::__dispatcher;
 	volatile Task * Task::__running;
 	Task * Task::__main;
 	int Task::__tid_counter;
@@ -47,7 +48,7 @@ namespace BOOOS
 	}
 
 	void Task::yield() {
-		pass_to(Task::__main, Task::READY); // arumar, não é this, tem que passar para o escalonador.
+		this->pass_to(Scheduler::self(), Task::READY); // arumar, não é this, tem que passar para o escalonador.
 	}
 
 	void Task::pass_to(Task * t, State s) {

@@ -7,6 +7,8 @@
 #ifndef BOOOS_H_
 #define BOOOS_H_
 // #include "Scheduler.h"
+//#include "Task.h"
+#include "Scheduler.h"
 namespace BOOOS {
 
 /* Configuration Space */
@@ -23,12 +25,12 @@ public:
 
 	BOOOS(bool verbose = true);
 	~BOOOS();
-
 	// static const int BOOOS_VERSION = 0;
 	static BOOOS * __booos;
 	static BOOOS::SchedulerType SCHED_POLICY; // ou outro escalonador. Ajustem como necessário
 	static bool SCHED_PREEMPT;  // pode ser preemptivo ou não
 	static bool SCHED_AGING; 
+	void init();
 	void panic();
 
 private:

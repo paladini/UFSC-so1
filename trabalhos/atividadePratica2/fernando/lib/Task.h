@@ -36,6 +36,18 @@ public:
 	static Task * self() { return (Task*) __running; }
 	static void init();
 
+	void setTid(int tid) {
+		_tid = tid;
+	}
+
+	void setState(State s) {
+		_state = s;
+	}
+
+	static Queue ready() {
+		return __ready;
+	}
+
 private:
 
 	Task();
