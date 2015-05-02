@@ -139,8 +139,8 @@ namespace Scheduler_Test_Functions {
 
 		while(Task::count() > 2) {
 			log.push("Main yielding...\n");
-			std::cout << "Magic" << std::endl;
 			Task::self()->yield();
+			std::cout << "Magic" << std::endl;
 		}
 
 		delete pang;

@@ -7,6 +7,7 @@
 #define TASK_CC_
 #include "Task.h"
 #include "Scheduler.h"
+#include <iostream>
 namespace BOOOS
 {
 	//Scheduler* Scheduler::__dispatcher;
@@ -54,15 +55,16 @@ namespace BOOOS
 	}
 
 	void Task::pass_to(Task * t, State s) {
-		if (this->_state == SCHEDULER) {
-			this->_state = s;
-			__running = t;
-		} else {
+		// if (this->_state == SCHEDULER) {
+		// 	this->_state = s;
+		// 	__running = t;
+		// 	//__ready.insert(this);
+		// } else {
 			this->_state = s;
 			__running = t;
 			__running->_state = RUNNING;
-		}
-		//__ready.insert(t);
+		//}
+			std::cout << "More Magic" << std::endl;
 		swapcontext(&(this->_context), &(t->_context));
 	}
 
