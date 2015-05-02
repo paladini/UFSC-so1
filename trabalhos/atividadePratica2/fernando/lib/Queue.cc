@@ -1,4 +1,4 @@
-/* Emmanuel Podestá Junior, Fernando Paladini.
+/* Emmanuel PodestÃ¡ Junior, Fernando Paladini.
  * BOOOS.h
  *
  *  Created on: Aug 14, 2014
@@ -49,7 +49,7 @@ namespace BOOOS {
             int count = 0;
 
             while(count < _length) {
-                if (temp >= elem) {
+                if (elem >= temp) {
                     temp = temp->next();
                 } else {
                     break;
@@ -62,38 +62,15 @@ namespace BOOOS {
             elem->prev(temp);
             temp->next()->prev(elem);
             temp->next(elem);
-            _length++;
 
             if(count == _length) {
                 _head.prev(elem);
             }
-            if(count == 1) {
-
+            if(count == 0) {
+                _head.next(elem);
             }
-            /* bool exist = true;
+            _length++;
 
-
-
-            if(temp > elem) {
-                temp = temp->next();
-                while (temp > elem) {
-                    temp = temp->next();
-                    if (temp == _head.next()) {
-                        exist = false;
-                        break;
-                    }
-                }
-            }            
-
-            // Don't care if temp == elem or temp < elem, always will add before.
-            if (exist) {
-                temp = temp->prev();
-                elem->next(temp->next());
-                elem->prev(temp);
-                temp->next()->prev(elem);
-                temp->next(elem);
-                _length++;
-            } */
         } else {
             insert(elem);
         }
