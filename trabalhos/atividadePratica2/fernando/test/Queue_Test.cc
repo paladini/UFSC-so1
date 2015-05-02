@@ -29,10 +29,10 @@ private:
 */
 int test_remotion_by_element() {
 	Queue q;
-	MyElement* person1 = new MyElement("JoÃ£o");
+	MyElement* person1 = new MyElement("JoÃƒÂ£o");
 	MyElement* person2 = new MyElement("Pedro");
 	MyElement* person3 = new MyElement("Augusto");
-	MyElement* person4 = new MyElement("FÃ¡bio");
+	MyElement* person4 = new MyElement("FÃƒÂ¡bio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -42,6 +42,20 @@ int test_remotion_by_element() {
 
 	ASSERT(q.head()->next()->next()->next() == person4, 1);
 	ASSERT(q.head()->prev()->prev() == person2, 2);
+	ASSERT(q.head()->prev() == person4, 3);
+	ASSERT(q.head()->next() == person1, 4);
+	ASSERT(q.head()->next()->next() == person2, 5);
+
+	q.remove(person2);
+	
+	ASSERT(q.head()->next()->next() == person4, 6);
+	ASSERT(q.head()->next() == person1, 7);
+	ASSERT(q.head()->prev() == person4, 8);
+
+	q.remove(person4);
+
+	ASSERT(q.head()->prev() == person1, 9);
+	ASSERT(q.head()->next() == person1, 10);
 
 	return 0;
 }
@@ -121,10 +135,10 @@ int test_creation_destruction() {
 int test_insertion() {
 	Queue q;
 
-	MyElement * person1 = new MyElement("JoÃ£o");
+	MyElement * person1 = new MyElement("JoÃƒÂ£o");
 	MyElement * person2 = new MyElement("Pedro");
 	MyElement * person3 = new MyElement("Augusto");
-	MyElement * person4 = new MyElement("FÃ¡bio");
+	MyElement * person4 = new MyElement("FÃƒÂ¡bio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -151,10 +165,10 @@ int test_insertion() {
 int test_remotion() {
 	Queue q;
 
-	MyElement * person1 = new MyElement("JoÃ£o");
+	MyElement * person1 = new MyElement("JoÃƒÂ£o");
 	MyElement * person2 = new MyElement("Pedro");
 	MyElement * person3 = new MyElement("Augusto");
-	MyElement * person4 = new MyElement("FÃ¡bio");
+	MyElement * person4 = new MyElement("FÃƒÂ¡bio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -182,10 +196,10 @@ int main() {
 	tests.attach_test(&test_remotion, "Remotion");
 
 	// Tests by @paladini.
-	tests.attach_test(&test_remotion_by_element, "Remotion by element");
+	tests.attach_test(&test_remotion_by_element, "Remotion by element (@paladini)");
 
-	// nÃ£o estÃ¡ funcionando pq nÃ£o faz sentido ter uma fila circular ordenada.
-	tests.attach_test(&test_ordered_insertion, "Ordered insertion"); 
+	// nÃƒÂ£o estÃƒÂ¡ funcionando pq nÃƒÂ£o faz sentido ter uma fila circular ordenada.
+	tests.attach_test(&test_ordered_insertion, "Ordered insertion (@paladini)"); 
 
 	tests.run();
 

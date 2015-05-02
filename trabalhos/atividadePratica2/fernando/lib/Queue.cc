@@ -1,4 +1,4 @@
-/* Emmanuel PodestÃ¡ Junior, Fernando Paladini.
+/* Emmanuel PodestÃƒÂ¡ Junior, Fernando Paladini.
  * BOOOS.h
  *
  *  Created on: Aug 14, 2014
@@ -90,15 +90,46 @@ namespace BOOOS {
     }
 
 
-    void Queue::remove(Element * e) {
+    void Queue::remove(Element * elem) {
         if (_length == 0) {
             throw -1;
         } 
-        if (e == 0) {
+        if (elem == 0) {
             throw -2;
         }
 
         Element* temp = _head.next();
+        int count = 0;
+
+        while (count < _length) {
+            if (elem == temp) {
+                break;
+            } else {
+                temp = temp->next();
+            }
+            count++;
+        }
+
+        // Element not found.
+        if (count == _length) {
+            throw -3;
+        }
+
+        temp->prev()->next(temp->next());
+        temp->next()->prev(temp->prev());
+
+        if(count == 0) {
+            _head.next(temp->next());
+        } else if(count == _length -1) {
+            _head.prev(temp->prev());
+        }
+
+        delete temp;
+        temp = NULL;
+        _length--;
+
+
+        /* Element* temp = _head.next();
         bool exist = true;
         if (temp != e) {
             temp = temp->next();
@@ -118,7 +149,7 @@ namespace BOOOS {
             _length--; 
         } else {
             throw -3;
-        }
+        } */
     }
 
     // Private
