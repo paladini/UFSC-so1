@@ -13,7 +13,7 @@ namespace BOOOS {
 
 	Scheduler* Scheduler::__dispatcher;
 
-	Scheduler::Scheduler() : Task(Scheduler::dispatcher, 1, (void*)"d1") { 
+	Scheduler::Scheduler() : Task(dispatcher, 1, 0) { 
 		this->setState(Task::SCHEDULER);
 	}
 	Scheduler::~Scheduler() {
@@ -22,8 +22,9 @@ namespace BOOOS {
 
 	void Scheduler::init() {
 		Task::init();
-		Scheduler::__dispatcher = new Scheduler();
-		//Scheduler::__dispatcher->setTid(1);
+		__dispatcher = new Scheduler();
+		//this->yield();
+		__dispatcher->setTid(1);
 	}
 	Scheduler* Scheduler::self() {
 		return __dispatcher;

@@ -24,13 +24,15 @@ namespace Scheduler_Test_Functions {
 
 		ASSERT(Scheduler::self()->tid() == 1, 1);
 		ASSERT(Scheduler::self()->state() == Task::SCHEDULER, 2);
-
 		ASSERT(Task::count() == 2, 3);
+		std::cout << "Passou 1" << std::endl;
+
 		Scheduler::init(); // should execute only once!
 		ASSERT(Scheduler::self()->tid() == 1, 4);
 		ASSERT(Scheduler::self()->state() == Task::SCHEDULER, 5);
-		std::cout << Task::count() << std::endl;
 		ASSERT(Task::count() == 2, 6);
+		std::cout << "Task count: " << Task::count() << std::endl;
+		std::cout << "Passou 2" << std::endl;
 
 		Task::self()->exit(0);
 

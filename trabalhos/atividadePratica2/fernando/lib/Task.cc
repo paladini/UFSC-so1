@@ -51,28 +51,55 @@ namespace BOOOS
 	}
 
 	void Task::yield() {
-		this->pass_to(Scheduler::__dispatcher, Task::READY); // arumar, não é this, tem que passar para o escalonador.
+		this->pass_to(Scheduler::__dispatcher, Task::SCHEDULER); // arumar, não é this, tem que passar para o escalonador.
 	}
 
 	void Task::pass_to(Task * t, State s) {
-		// if (this->_state == SCHEDULER) {
-		// 	this->_state = s;
-		// 	__running = t;
-		// 	//__ready.insert(this);
-		// } else {
+		/* std::cout << "This task has '_state' == scheduler? " << (this->_state == Task::SCHEDULER) << std::endl;
+		if (this->_state == Task::SCHEDULER) {
+			//this->_state = s;
+		 	__running = t;
+		 	//__ready.insert(this);
+		} else {
+			this->_state = s;
+			__running = t;
+			__running->_state = Task::RUNNING;
+		} */
+		bool isScheduler = this->_state == SCHEDULER;
+		std::cout << "This task has '_state' == scheduler? " << isScheduler << std::endl;
+		if (t->_state == SCHEDULER) {
+			this->_state = s;
+			this->__running = t;
+		} else if (this->_state == SCHEDULER){
 			this->_state = s;
 			__running = t;
 			__running->_state = RUNNING;
-		//}
-			std::cout << "More Magic" << std::endl;
+		} else {
+			this->_state = s;
+			__running = t;
+			__running->_state = RUNNING;
+		}
+		
+		std::cout << "More Magic" << std::endl;
 		swapcontext(&(this->_context), &(t->_context));
 	}
 
 	void Task::exit(int code) {
+		if(self() != Task::__main) {
+			if (this->_state == SCHEDULER) {
+				this->pass_to(Task::__main, Task::READY);
+			} else {
+				__ready.remove(this);
+				__task_counter--;
+				this->pass_to(Scheduler::__dispatcher, Task::FINISHING);
+			}
+		}
+
+		
 		// Removing the task from ready queue.
-		__ready.remove(this);
+		/* __ready.remove(this);
 		__task_counter--;
-		this->pass_to(Task::__main, Task::FINISHING);
+		this->pass_to(Task::__main, Task::FINISHING); */
 	}
 
 	void Task::allocate_stack() {
