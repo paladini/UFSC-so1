@@ -25,11 +25,14 @@ namespace Scheduler_Test_Functions {
 		ASSERT(Scheduler::self()->tid() == 1, 1);
 		ASSERT(Scheduler::self()->state() == Task::SCHEDULER, 2);
 		ASSERT(Task::count() == 2, 3);
+		std::cout << "Passou 1" << std::endl;
 
 		Scheduler::init(); // should execute only once!
 		ASSERT(Scheduler::self()->tid() == 1, 4);
 		ASSERT(Scheduler::self()->state() == Task::SCHEDULER, 5);
 		ASSERT(Task::count() == 2, 6);
+		std::cout << "Task count: " << Task::count() << std::endl;
+		std::cout << "Passou 2" << std::endl;
 
 		Task::self()->exit(0);
 
@@ -136,30 +139,11 @@ namespace Scheduler_Test_Functions {
 		Task * pong = new Task(function, 1, (char*)"\t\t\t\tPong");
 		Task * pung = new Task(function, 1, (char*)"\t\t\t\t\tPung");
 
-		/*std::cout << "tid1: " << pang->tid() << std::endl;
-		std::cout << "tid2: " << peng->tid() << std::endl;
-		std::cout << "tid3: " << ping->tid() << std::endl;
-		std::cout << "tid4: " << pong->tid() << std::endl;
-		std::cout << "tid5: " << pung->tid() << std::endl; */
-
-		/* TIDs are okay:
-	
-			tid1: 2
-			tid2: 3
-			tid3: 4
-			tid4: 5
-			tid5: 6
-
-		*/
-		std::cout << "Cheguei aqui!!" << std::endl;
-
 		while(Task::count() > 2) {
 			log.push("Main yielding...\n");
 			Task::self()->yield();
 			std::cout << "Magic" << std::endl;
 		}
-
-		std::cout << "Aqui ele não chega!" << std::endl;
 
 		delete pang;
 		delete peng;
@@ -171,14 +155,11 @@ namespace Scheduler_Test_Functions {
 
 		ASSERT(log.size() == correct.size(), 1);
 
-		std::cout << "Cheguei aqui!!" << std::endl;
-
 		string str1,str2;
 		int i = 2;
 		while(log.size()) {
 			str1 = log.front(); log.pop();
 			str2 = correct.front(); correct.pop();
-			std::cout << str1 << std::endl;
 			ASSERT(str1 == str2, i);
 			i++;
 		}

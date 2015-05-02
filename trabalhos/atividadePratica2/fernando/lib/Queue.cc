@@ -17,7 +17,10 @@ namespace BOOOS {
         _length = 0;
     }
 
-    Queue::~Queue() {}
+    Queue::~Queue() {
+        while(this->_length != 0)
+            this->remove();
+    }
 
     void Queue::insert(Element * elem) {
         if (elem == 0) {
@@ -77,8 +80,8 @@ namespace BOOOS {
     }
 
     Queue::Element * Queue::remove() {
-        if (_length == 0) {
-            throw -1; /* Fila vazia */
+         if (_length == 0) {
+            throw -1; // Fila vazia
         }
         Element *originalHead = _head.next();
         Element *last = _head.prev();
@@ -86,7 +89,16 @@ namespace BOOOS {
         _head.next()->prev(last);
         last->next(_head.next());
         _length--;
-        return originalHead;
+        return originalHead; 
+        /* if (!_length) {
+            throw 1;
+        }
+        Element* aux = _head.next();
+        _head.prev()->next(aux->next());
+        _head.next(aux->next());
+        _head.next()->prev(_head.prev());
+        --_length;
+        return aux; */
     }
 
 
