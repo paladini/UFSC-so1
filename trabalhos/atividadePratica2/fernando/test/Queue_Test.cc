@@ -29,10 +29,10 @@ private:
 */
 int test_remotion_by_element() {
 	Queue q;
-	MyElement* person1 = new MyElement("João");
+	MyElement* person1 = new MyElement("JoÃ£o");
 	MyElement* person2 = new MyElement("Pedro");
 	MyElement* person3 = new MyElement("Augusto");
-	MyElement* person4 = new MyElement("Fábio");
+	MyElement* person4 = new MyElement("FÃ¡bio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -63,12 +63,20 @@ int test_ordered_insertion() {
 	q.insert_ordered(e3);
 	q.insert_ordered(e1);
 
+	/* std::cout << "Next(): " << std::endl;
 	std::cout << "e1: " << q.head()->next()->rank() << std::endl;
 	std::cout << "e2: " << q.head()->next()->next()->rank() << std::endl;
 	std::cout << "e3: " << q.head()->next()->next()->next()->rank() << std::endl;
 	std::cout << "e4: " << q.head()->next()->next()->next()->next()->rank() << std::endl;
+
+	std::cout << "Prev(): " << std::endl;
+	std::cout << "e1: " << q.head()->prev()->prev()->prev()->prev()->rank() << std::endl;
+	std::cout << "e2: " << q.head()->prev()->prev()->prev()->rank() << std::endl;
+	std::cout << "e3: " << q.head()->prev()->prev()->rank() << std::endl;
+	std::cout << "e4: " << q.head()->prev()->rank() << std::endl;
+	
 	bool test = q.head()->next()->rank() == q.head()->next()->next()->next()->rank();
-	std::cout << "e1 == e3: " << test << std::endl;
+	std::cout << "e1 == e3: " << test << std::endl; */
 
 	ASSERT(q.head()->next()->rank() == 1, 1);
 	ASSERT(q.head()->next()->next()->rank() == 2, 2);
@@ -113,10 +121,10 @@ int test_creation_destruction() {
 int test_insertion() {
 	Queue q;
 
-	MyElement * person1 = new MyElement("João");
+	MyElement * person1 = new MyElement("JoÃ£o");
 	MyElement * person2 = new MyElement("Pedro");
 	MyElement * person3 = new MyElement("Augusto");
-	MyElement * person4 = new MyElement("Fábio");
+	MyElement * person4 = new MyElement("FÃ¡bio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -143,10 +151,10 @@ int test_insertion() {
 int test_remotion() {
 	Queue q;
 
-	MyElement * person1 = new MyElement("João");
+	MyElement * person1 = new MyElement("JoÃ£o");
 	MyElement * person2 = new MyElement("Pedro");
 	MyElement * person3 = new MyElement("Augusto");
-	MyElement * person4 = new MyElement("Fábio");
+	MyElement * person4 = new MyElement("FÃ¡bio");
 
 	q.insert(person1);
 	q.insert(person2);
@@ -176,8 +184,8 @@ int main() {
 	// Tests by @paladini.
 	tests.attach_test(&test_remotion_by_element, "Remotion by element");
 
-	// não está funcionando pq não faz sentido ter uma fila circular ordenada.
-	// tests.attach_test(&test_ordered_insertion, "Ordered insertion"); 
+	// nÃ£o estÃ¡ funcionando pq nÃ£o faz sentido ter uma fila circular ordenada.
+	tests.attach_test(&test_ordered_insertion, "Ordered insertion"); 
 
 	tests.run();
 
