@@ -169,7 +169,11 @@ namespace Scheduler_Test_Functions {
 		delete pung;
 
 		log.push("Main End\n");
-
+		while (!log.empty())
+ 		{
+    		std::cout << ' ' << log.front();
+    		log.pop();
+  		}
 		ASSERT(log.size() == correct.size(), 1);
 
 		std::cout << "Cheguei aqui!!" << std::endl;

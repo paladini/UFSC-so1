@@ -14,8 +14,8 @@ namespace BOOOS {
 	//Scheduler* Scheduler::__dispatcher;
 	volatile Task * Task::__running;
 	Task * Task::__main;
-	int Task::__tid_counter = 0;
-	int Task::__task_counter = 0;
+	int Task::__tid_counter;
+	int Task::__task_counter;
 	Queue Task::__ready;
 	const int _STACK_SIZE = 32768;
 
@@ -52,12 +52,12 @@ namespace BOOOS {
 		if (this->_state == READY) {
 			if (__ready.searchB(this)) {
 				__ready.remove(this);
-				__task_counter--;
+				//__task_counter--;
 			}
 		}
-		std::cout << "Jog" << std::endl;
+		//std::cout << "Jog" << std::endl;
 		delete[] this->_stack;
-		std::cout << "Joge" << std::endl;
+		//std::cout << "Joge" << std::endl;
 	}
 
 	void Task::init() {
@@ -83,17 +83,27 @@ namespace BOOOS {
 			std::cout << "Passo4" << std::endl;
 			this->_state = s;
 
-			if (s == READY) {
-				__ready.insert(this);
-			}
-			if (this->_state == FINISHING) {
+			if (s == FINISHING) {
 				if (__ready.searchB(this)) {
+					std::cout << "Rola"<< this->_tid << std::endl;
 					__ready.remove(this);
 					__task_counter--;
 				}
 				
 			}
+			if (s == READY) {
+				if (!__ready.searchB(this)) {
+					__ready.insert(this);
+					__task_counter++;
+				}
+			}
 		}
+		// if (this->_state == SCHEDULER) {
+
+		// }
+		// if (t->_state == SCHEDULER) {
+
+		// }
 
 		__running = t;
 
