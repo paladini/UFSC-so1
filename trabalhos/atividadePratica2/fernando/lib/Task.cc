@@ -28,21 +28,21 @@ namespace BOOOS {
 
 	Task::Task(void (*entry_point)(void*), int nargs, void * arg) {
 		getcontext(&(this->_context));
-		this->_tid = __tid_counter;
 		this->_state = READY;
 
 		// Dar uma olhada nesse método, tem um problema.
 		this->allocate_stack();
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
+		this->_tid = __tid_counter;
 
 		// Adding to queue. Only add to queue if not Scheduler.
 		if (nargs > 0) {
 			__ready.insert(this);
 		}
 		
+		
 		__task_counter++;
 		__tid_counter++;
-		
 	}
 
 	Task::~Task() {
@@ -52,7 +52,7 @@ namespace BOOOS {
 		if (this->_state == READY) {
 			if (__ready.searchB(this)) {
 				__ready.remove(this);
-				//__task_counter--;
+				__task_counter--;
 			}
 		}
 		//std::cout << "Jog" << std::endl;
@@ -74,27 +74,28 @@ namespace BOOOS {
 
 	void Task::pass_to(Task * t, State s) {
         // Task * aux = this->self();
-		std::cout << "Passo3" << std::endl;
+		//std::cout << "Passo3" << std::endl;
 		if (t->_state != SCHEDULER) {
 			t->_state = RUNNING;
 		}
 
 		if (this->_state != SCHEDULER) {
-			std::cout << "Passo4" << std::endl;
+			//std::cout << "Passo4" << std::endl;
 			this->_state = s;
 
 			if (s == FINISHING) {
 				if (__ready.searchB(this)) {
-					std::cout << "Rola"<< this->_tid << std::endl;
+					//std::cout << "FINISHING"<< this->_tid << std::endl;
 					__ready.remove(this);
-					__task_counter--;
+					//__task_counter--;
 				}
 				
 			}
-			if (s == READY) {
+			if (s == READY /*Task::self() != __main*/) {
 				if (!__ready.searchB(this)) {
+					//std::cout << "READY"<< this->_tid << std::endl;
 					__ready.insert(this);
-					__task_counter++;
+					//__task_counter++;
 				}
 			}
 		}
@@ -138,7 +139,7 @@ namespace BOOOS {
 		} */
 
 		//std::cout << "More Magic" << std::endl;
-		std::cout << "Passo5" << std::endl;
+		//std::cout << "Passo5" << std::endl;
 		swapcontext(&(this->_context), &(t->_context));
 	}
 
@@ -150,7 +151,7 @@ namespace BOOOS {
 		if (this->_state == SCHEDULER) {
 			this->pass_to(__main, FINISHING);
 		} else {
-			std::cout << "Passo2" << std::endl;
+			//std::cout << "Passo2" << std::endl;
 			this->pass_to(Scheduler::__dispatcher, FINISHING);
 		}
 

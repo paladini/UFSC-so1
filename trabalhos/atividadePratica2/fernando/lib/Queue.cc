@@ -82,6 +82,8 @@ namespace BOOOS {
     Queue::Element * Queue::remove() {
          if (_length == 0) {
             throw -1; // Fila vazia
+            //_head.prev(NULL);
+            //_head.next(NULL);
         }
         Element *originalHead = _head.next();
         Element *last = _head.prev();

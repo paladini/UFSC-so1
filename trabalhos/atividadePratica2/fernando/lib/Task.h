@@ -45,7 +45,7 @@ class Task : public Queue::Element {
 			_state = s;
 		}
 
-		static Queue ready() {
+		Queue ready() {
 			return __ready;
 		}
 
@@ -57,7 +57,6 @@ class Task : public Queue::Element {
 		static volatile Task * __running;
 		static Task * __main;
 		static int __tid_counter;
-		static Queue __ready;
 		static const int _STACK_SIZE = 32768;
 		static 	int __task_counter;
 
@@ -65,7 +64,9 @@ class Task : public Queue::Element {
 		int _tid; // task ID
 		ucontext_t _context;
 		char* _stack;
-
+	//protected:
+		static Queue __ready;
+		
 };
 } /* namespace BOOOS */
 

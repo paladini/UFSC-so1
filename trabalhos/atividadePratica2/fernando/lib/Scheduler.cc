@@ -29,17 +29,17 @@ namespace BOOOS {
 		return __dispatcher;
 	}
 	void Scheduler::dispatcher(void*) {
-		std::cout << "Passo6" << std::endl;
-    	while (Task::ready().length() > 0) {
-			Task *next = self()->choose_next(); 	
+		//std::cout << "Passo6" << std::endl;
+		for (int i = 0; i < self()->ready().length(); i++) {
+			std::cout << i << std::endl;
+		}
+    	while (Task::self()->ready().length() > 0) {
+			Task *next = Task::self()->choose_next(); 	
 
-			for (int i = 0; i < Task::ready().length(); i++) {
-				std::cout << i << std::endl;
-			}
 			std::cout << Task::count() << std::endl;
 
 			if (next) {
-				std::cout << "Passo7" << std::endl;
+				//std::cout << "Passo7" << std::endl;
 				Scheduler::self()->pass_to(next);
 			}
 			//std::cout << "Zue" << std::endl;
@@ -48,12 +48,18 @@ namespace BOOOS {
 			}
 
 		} 
-		std::cout << "Passo8" << std::endl;
+		//std::cout << "Passo8" << std::endl;
 		Scheduler::self()->exit(0);
 	}
 	Task * Scheduler::choose_next() {
-		Task* zoa = (Task*) Task::ready().remove();
-		std::cout << "Rolinha" << zoa->tid() << std::endl;
+		Task* zoa;/* = (Task*) Task::ready().remove();*/
+		zoa = (Task*) Task::self()->ready().remove();
+		// while (__ready.length() > 0) {
+		// 	std::cout << "Tid: " << zoa->tid() << std::endl;
+		// 	// std::sleep(1000);
+		// 	//usleep(10000);
+		// }
+		//std::cout << "Tid da Task que foi retirada: " << zoa->tid() << std::endl;
 		return zoa;
 	}
 

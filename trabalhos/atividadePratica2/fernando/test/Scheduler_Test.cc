@@ -152,15 +152,15 @@ namespace Scheduler_Test_Functions {
 			tid5: 6
 
 		*/
-		std::cout << "Cheguei aqui!!" << std::endl;
+		//std::cout << "Cheguei aqui!!" << std::endl;
 
 		while(Task::count() > 2) {
 			log.push("Main yielding...\n");
 			Task::self()->yield();
-			std::cout << "Magic" << std::endl;
+			//std::cout << "Magic" << std::endl;
 		}
 
-		std::cout << "Aqui ele não chega!" << std::endl;
+		//std::cout << "Aqui ele não chega!" << std::endl;
 
 		delete pang;
 		delete peng;
@@ -169,14 +169,14 @@ namespace Scheduler_Test_Functions {
 		delete pung;
 
 		log.push("Main End\n");
-		while (!log.empty())
- 		{
-    		std::cout << ' ' << log.front();
-    		log.pop();
-  		}
+		// while (!log.empty())
+ 	// 	{
+  //   		std::cout << ' ' << log.front();
+  //   		log.pop();
+  // 		}
 		ASSERT(log.size() == correct.size(), 1);
 
-		std::cout << "Cheguei aqui!!" << std::endl;
+		//std::cout << "Cheguei aqui!!" << std::endl;
 
 		string str1,str2;
 		int i = 2;
