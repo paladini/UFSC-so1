@@ -61,9 +61,9 @@ namespace Scheduler_Test_Functions {
 		ASSERT(t4->state() == Task::READY, 8);
 		ASSERT(Task::count() == 6, 9);
 
+		std::cout << "Jog" << std::endl;
 		delete t3;
 		delete t4;
-
 		Task::self()->exit(0);
 
 		return 0;

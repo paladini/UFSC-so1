@@ -33,10 +33,14 @@ namespace BOOOS {
 			Task *next = self()->choose_next(); 	
 			
 			if (next) {
-				Task::self()->pass_to(next);
+				Scheduler::self()->pass_to(next);
 			}
+			if (Task::self()->state() == Task::RUNNING) {
+				Task::self()->exit(0);
+			}
+
 		} 
-		Task::self()->exit(0);
+		Scheduler::self()->exit(0);
 	}
 	Task * Scheduler::choose_next() {
 		return (Task*) Task::ready().remove();

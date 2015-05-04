@@ -191,6 +191,32 @@ namespace BOOOS {
             return 0;
         }
     }
+    bool Queue::searchB(Element * elem) {
+        if (_length == 0) {
+            throw -1;
+        }
+        if (elem == 0) {
+            throw -2;
+        }
+
+        Element* temp = _head.next();
+        bool exist = true;
+        if (temp != elem) {
+            temp = temp->next();
+            while (temp != elem) {
+                temp = temp->next();
+                if (temp == _head.next()) {
+                    exist = false;
+                }
+            }
+        }
+        return exist;
+        // if (exist) {
+        //     return temp;
+        // } else {
+        //     return 0;
+        // }
+    }
 
 }
 #endif

@@ -46,8 +46,14 @@ namespace BOOOS {
 	}
 
 	Task::~Task() {
-		if (this->_state != FINISHING){
-			Task::exit(0);
+		if (this->_state == RUNNING){
+			Task::self()->exit(0);
+		}
+		if (this->_state == READY) {
+			if (__ready.searchB(this)) {
+				__ready.remove(this);
+				__task_counter--;
+			}
 		}
 		delete this->_stack;
 	}
@@ -117,14 +123,15 @@ namespace BOOOS {
 
 	void Task::exit(int code) {
 		__task_counter--;
-		__tid_counter--;
+		//__tid_counter--;
 
 		//if (self() != __main) {
-			if (this->_state == SCHEDULER) {
-				this->pass_to(__main, FINISHING);
-			} else {
-				this->pass_to(Scheduler::__dispatcher, FINISHING);
-			}
+		if (this->_state == SCHEDULER) {
+			this->pass_to(__main, FINISHING);
+		} else {
+			this->pass_to(Scheduler::__dispatcher, FINISHING);
+		}
+
 		//}
 		// Removing the task from ready queue.
 		/* __ready.remove(this); */
@@ -139,7 +146,7 @@ namespace BOOOS {
 
 		// se a linha abaixo for descomentada, os testes dão erro.
 		// caso ela esteja comentada e em baixo a outra linha recebendo = 0, passa em tudo.
-		this->_context.uc_link = (ucontext_t*)&__running->_context;
+		this->_context.uc_link = (ucontext_t*)&(Scheduler::__dispatcher)->_context;
 		// this->_context.uc_link = 0;
 	}
 
