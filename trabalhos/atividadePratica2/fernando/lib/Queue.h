@@ -26,29 +26,29 @@ namespace BOOOS {
                         void next(Element * p) { _next = p; }
                         void rank(int r) { _rank = r; }
 
-                        // bool operator==(const Element& rhs) const {
-                        //     return this->rank() == rhs.rank();
-                        // }
+                        bool operator==(const Element& rhs) const {
+                            return this->rank() == rhs.rank();
+                        }
 
-                        // bool operator!=(const Element& rhs) const {
-                        //     return this->rank() != rhs.rank();
-                        // }
+                        bool operator!=(const Element& rhs) const {
+                            return this->rank() != rhs.rank();
+                        }
 
-                        // bool operator> (const Element& rhs) const {
-                        //     return this->rank() > rhs.rank();
-                        // }
+                        bool operator> (const Element& rhs) const {
+                            return this->rank() > rhs.rank();
+                        }
 
-                        // bool operator< (const Element& rhs) const {
-                        //     return this->rank() < rhs.rank();
-                        // }
+                        bool operator< (const Element& rhs) const {
+                            return this->rank() < rhs.rank();
+                        }
 
-                        // bool operator<=(const Element& rhs) const {
-                        //     return this->rank() <= rhs.rank();
-                        // }
+                        bool operator<=(const Element& rhs) const {
+                            return this->rank() <= rhs.rank();
+                        }
 
-                        // bool operator>=(const Element& rhs) const {
-                        //     return this->rank() >= rhs.rank();
-                        // }
+                        bool operator>=(const Element& rhs) const {
+                            return this->rank() >= rhs.rank();
+                        }
                 private:
                         Element * _prev;
                         Element * _next;

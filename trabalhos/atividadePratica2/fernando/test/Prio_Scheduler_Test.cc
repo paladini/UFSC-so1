@@ -183,6 +183,7 @@ namespace Scheduler_Test_Functions {
 		while(Task::count() > 2) {
 			Task::self()->nice(20);
 			log.push("Main yielding...\n");
+			std::cout << "No while" << std::endl;
 			Task::self()->yield();
 		}
 

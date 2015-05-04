@@ -30,13 +30,13 @@ namespace BOOOS {
 	}
 	void Scheduler::dispatcher(void*) {
 		//std::cout << "Passo6" << std::endl;
-		for (int i = 0; i < self()->ready().length(); i++) {
+		for (int i = 0; i < Task::__ready.length(); i++) {
 			std::cout << i << std::endl;
 		}
-    	while (Task::self()->ready().length() > 0) {
-			Task *next = Task::self()->choose_next(); 	
+    	while (Task::__ready.length() > 0) {
+			Task *next = Scheduler::self()->choose_next(); 	
 
-			std::cout << Task::count() << std::endl;
+			// std::cout << Task::count() << std::endl;
 
 			if (next) {
 				//std::cout << "Passo7" << std::endl;
@@ -52,15 +52,15 @@ namespace BOOOS {
 		Scheduler::self()->exit(0);
 	}
 	Task * Scheduler::choose_next() {
-		Task* zoa;/* = (Task*) Task::ready().remove();*/
-		zoa = (Task*) Task::self()->ready().remove();
+		// Task* zoa;/* = (Task*) Task::ready().remove();*/
+		return (Task*) Task::__ready.remove();
 		// while (__ready.length() > 0) {
 		// 	std::cout << "Tid: " << zoa->tid() << std::endl;
 		// 	// std::sleep(1000);
 		// 	//usleep(10000);
 		// }
 		//std::cout << "Tid da Task que foi retirada: " << zoa->tid() << std::endl;
-		return zoa;
+		// return zoa;
 	}
 
 

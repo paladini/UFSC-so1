@@ -32,6 +32,7 @@ class Task : public Queue::Element {
 		void yield();
 		void pass_to(Task * t, State s = READY);
 		void exit(int code);
+		void nice(int priority);
 		static int count() { return __task_counter;}
 		static void decrement_count() { __task_counter--; __tid_counter--; }
 		static Task * self() { return (Task*) __running; }
@@ -45,14 +46,15 @@ class Task : public Queue::Element {
 			_state = s;
 		}
 
-		Queue ready() {
-			return __ready;
-		}
+		// Queue ready() {
+		// 	return __ready;
+		// }
 
 	private:
 
 		Task();
 		void allocate_stack();
+		void insert_ready(Task* t);
 
 		static volatile Task * __running;
 		static Task * __main;
@@ -64,7 +66,8 @@ class Task : public Queue::Element {
 		int _tid; // task ID
 		ucontext_t _context;
 		char* _stack;
-	//protected:
+	
+	protected:
 		static Queue __ready;
 		
 };

@@ -7,6 +7,7 @@
 #define TASK_CC_
 #include "Task.h"
 #include "Scheduler.h"
+#include "BOOOS.h"
 #include <iostream>
 
 namespace BOOOS {
@@ -37,7 +38,8 @@ namespace BOOOS {
 
 		// Adding to queue. Only add to queue if not Scheduler.
 		if (nargs > 0) {
-			__ready.insert(this);
+			// __ready.insert(this);
+			insert_ready(this);
 		}
 		
 		
@@ -94,7 +96,8 @@ namespace BOOOS {
 			if (s == READY /*Task::self() != __main*/) {
 				if (!__ready.searchB(this)) {
 					//std::cout << "READY"<< this->_tid << std::endl;
-					__ready.insert(this);
+					//__ready.insert(this);
+					insert_ready(this);
 					//__task_counter++;
 				}
 			}
@@ -175,6 +178,20 @@ namespace BOOOS {
 		// } else {
 		// 	throw -1;
 		// }
+	}
+
+	void Task::nice(int priority) {
+		if (-20 <= priority <= 20) {
+			this->rank(priority);
+		}
+	}
+
+	void Task::insert_ready(Task* t) {
+		if (BOOOS::SCHED_POLICY == BOOOS::SCHED_PRIORITY) {
+			Task::__ready.insert_ordered(t);
+		} else if (BOOOS::SCHED_POLICY == BOOOS::SCHED_FCFS) {
+			Task::__ready.insert(t);
+		}
 	}
 
 } /* namespace BOOOS */
