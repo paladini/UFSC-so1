@@ -55,7 +55,9 @@ namespace BOOOS {
 				__task_counter--;
 			}
 		}
-		delete this->_stack;
+		std::cout << "Jog" << std::endl;
+		delete[] this->_stack;
+		std::cout << "Joge" << std::endl;
 	}
 
 	void Task::init() {
@@ -72,16 +74,24 @@ namespace BOOOS {
 
 	void Task::pass_to(Task * t, State s) {
         // Task * aux = this->self();
-		
+		std::cout << "Passo3" << std::endl;
 		if (t->_state != SCHEDULER) {
 			t->_state = RUNNING;
 		}
 
 		if (this->_state != SCHEDULER) {
+			std::cout << "Passo4" << std::endl;
 			this->_state = s;
 
 			if (s == READY) {
 				__ready.insert(this);
+			}
+			if (this->_state == FINISHING) {
+				if (__ready.searchB(this)) {
+					__ready.remove(this);
+					__task_counter--;
+				}
+				
 			}
 		}
 
@@ -118,6 +128,7 @@ namespace BOOOS {
 		} */
 
 		//std::cout << "More Magic" << std::endl;
+		std::cout << "Passo5" << std::endl;
 		swapcontext(&(this->_context), &(t->_context));
 	}
 
@@ -129,6 +140,7 @@ namespace BOOOS {
 		if (this->_state == SCHEDULER) {
 			this->pass_to(__main, FINISHING);
 		} else {
+			std::cout << "Passo2" << std::endl;
 			this->pass_to(Scheduler::__dispatcher, FINISHING);
 		}
 
@@ -140,14 +152,18 @@ namespace BOOOS {
 	}
 
 	void Task::allocate_stack() {
-		this->_stack = (char*) malloc(_STACK_SIZE);
+		this->_stack = new char[_STACK_SIZE];
+		//if(this->_stack) {
 		this->_context.uc_stack.ss_sp = _stack;
 		this->_context.uc_stack.ss_size = _STACK_SIZE;
-
-		// se a linha abaixo for descomentada, os testes dão erro.
-		// caso ela esteja comentada e em baixo a outra linha recebendo = 0, passa em tudo.
+		this->_context.uc_stack.ss_flags = 0;
+			// se a linha abaixo for descomentada, os testes dão erro.
+			// caso ela esteja comentada e em baixo a outra linha recebendo = 0, passa em tudo.
 		this->_context.uc_link = (ucontext_t*)&(Scheduler::__dispatcher)->_context;
-		// this->_context.uc_link = 0;
+			// this->_context.uc_link = 0;
+		// } else {
+		// 	throw -1;
+		// }
 	}
 
 } /* namespace BOOOS */

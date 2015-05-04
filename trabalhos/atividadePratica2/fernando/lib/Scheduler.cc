@@ -29,20 +29,26 @@ namespace BOOOS {
 		return __dispatcher;
 	}
 	void Scheduler::dispatcher(void*) {
-    	while (Task::ready().length() > 0) {
+		std::cout << "Passo6" << std::endl;
+    	while (Task::count() > 1) {
 			Task *next = self()->choose_next(); 	
-			
 			if (next) {
+				std::cout << "Passo7" << std::endl;
 				Scheduler::self()->pass_to(next);
 			}
+			//std::cout << "Zue" << std::endl;
 			if (Task::self()->state() == Task::RUNNING) {
 				Task::self()->exit(0);
 			}
 
 		} 
+		std::cout << "Passo8" << std::endl;
 		Scheduler::self()->exit(0);
 	}
 	Task * Scheduler::choose_next() {
+		for (int i = 0; i < Task::ready().length(); i++) {
+			std::cout << i << std::endl;
+		}
 		return (Task*) Task::ready().remove();
 	}
 	

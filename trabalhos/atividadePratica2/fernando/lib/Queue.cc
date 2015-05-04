@@ -136,8 +136,8 @@ namespace BOOOS {
             _head.prev(temp->prev());
         }
 
-        delete temp;
-        temp = NULL;
+        //delete temp;
+        //temp = NULL;
         _length--;
 
 
@@ -174,48 +174,28 @@ namespace BOOOS {
         }
 
         Element* temp = _head.next();
-        bool exist = true;
-        if (temp != elem) {
-            temp = temp->next();
-            while (temp != elem) {
+        int count = 0;
+
+        while (count < _length) {
+            if (elem == temp) {
+                //break;
+                return temp;
+            } else {
                 temp = temp->next();
-                if (temp == _head.next()) {
-                    exist = false;
-                }
             }
+            count++;
         }
 
-        if (exist) {
-            return temp;
-        } else {
-            return 0;
-        }
+        throw -3;
     }
     bool Queue::searchB(Element * elem) {
-        if (_length == 0) {
-            throw -1;
-        }
-        if (elem == 0) {
-            throw -2;
+        try {
+            Element* e = search(elem);
+        } catch (int e) {
+            return false;
         }
 
-        Element* temp = _head.next();
-        bool exist = true;
-        if (temp != elem) {
-            temp = temp->next();
-            while (temp != elem) {
-                temp = temp->next();
-                if (temp == _head.next()) {
-                    exist = false;
-                }
-            }
-        }
-        return exist;
-        // if (exist) {
-        //     return temp;
-        // } else {
-        //     return 0;
-        // }
+        return true;
     }
 
 }
