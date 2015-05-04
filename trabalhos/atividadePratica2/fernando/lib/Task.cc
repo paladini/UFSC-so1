@@ -7,6 +7,7 @@
 #define TASK_CC_
 #include "Task.h"
 #include "Scheduler.h"
+#include "BOOOS.h"
 #include <iostream>
 
 namespace BOOOS {
@@ -32,7 +33,8 @@ namespace BOOOS {
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 		this->_tid = __tid_counter;
 		if (nargs > 0) {
-			__ready.insert(this);
+			// __ready.insert(this);
+			insert_ready(this);
 		}
 		__task_counter++;
 		__tid_counter++;
@@ -81,7 +83,14 @@ namespace BOOOS {
 			}
 			if (s == READY) {
 				if (!__ready.searchB(this)) {
+<<<<<<< HEAD
 					__ready.insert(this);
+=======
+					//std::cout << "READY"<< this->_tid << std::endl;
+					//__ready.insert(this);
+					insert_ready(this);
+					//__task_counter++;
+>>>>>>> d825766c413cac079f394be296ed8d8a6fbd553f
 				}
 			}
 		}
@@ -109,6 +118,20 @@ namespace BOOOS {
 		this->_context.uc_stack.ss_flags = 0;
 		this->_context.uc_link = (ucontext_t*)&(Scheduler::__dispatcher)->_context;
 
+	}
+
+	void Task::nice(int priority) {
+		if (-20 <= priority <= 20) {
+			this->rank(priority);
+		}
+	}
+
+	void Task::insert_ready(Task* t) {
+		if (BOOOS::SCHED_POLICY == BOOOS::SCHED_PRIORITY) {
+			Task::__ready.insert_ordered(t);
+		} else if (BOOOS::SCHED_POLICY == BOOOS::SCHED_FCFS) {
+			Task::__ready.insert(t);
+		}
 	}
 
 } /* namespace BOOOS */

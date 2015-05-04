@@ -12,6 +12,7 @@
 
 namespace BOOOS {
 
+<<<<<<< HEAD
 	class Task : public Queue::Element {
 		public:
 			enum State {
@@ -65,6 +66,67 @@ namespace BOOOS {
 			static Queue __ready;
 
 	};
+=======
+class Task : public Queue::Element {
+	public:
+		enum State {
+			READY,
+			WAITING,
+			RUNNING,
+			FINISHING,
+			SCHEDULER
+		};
+
+		Task(void (*entry_point)(void), int nargs, void * arg);
+		Task(void (*entry_point)(void*), int nargs, void * arg);
+		virtual ~Task();
+
+		int tid() { return _tid; }
+		State state() { return _state; }
+
+		void yield();
+		void pass_to(Task * t, State s = READY);
+		void exit(int code);
+		void nice(int priority);
+		static int count() { return __task_counter;}
+		static void decrement_count() { __task_counter--; __tid_counter--; }
+		static Task * self() { return (Task*) __running; }
+		static void init();
+
+		void setTid(int tid) {
+			_tid = tid;
+		}
+
+		void setState(State s) {
+			_state = s;
+		}
+
+		// Queue ready() {
+		// 	return __ready;
+		// }
+
+	private:
+
+		Task();
+		void allocate_stack();
+		void insert_ready(Task* t);
+
+		static volatile Task * __running;
+		static Task * __main;
+		static int __tid_counter;
+		static const int _STACK_SIZE = 32768;
+		static 	int __task_counter;
+
+		State _state;
+		int _tid; // task ID
+		ucontext_t _context;
+		char* _stack;
+	
+	protected:
+		static Queue __ready;
+		
+};
+>>>>>>> d825766c413cac079f394be296ed8d8a6fbd553f
 } /* namespace BOOOS */
 
 #endif /* TASK_H_ */

@@ -182,7 +182,7 @@ namespace Scheduler_Test_Functions {
 		while(log.size()) {
 			str1 = log.front(); log.pop();
 			str2 = correct.front(); correct.pop();
-			std::cout << str1 << std::endl;
+			//std::cout << str1 << std::endl;
 			ASSERT(str1 == str2, i);
 			i++;
 		}
