@@ -80,10 +80,8 @@ namespace BOOOS {
     }
 
     Queue::Element * Queue::remove() {
-         if (_length == 0) {
-            throw -1; // Fila vazia
-            //_head.prev(NULL);
-            //_head.next(NULL);
+        if (_length == 0) {
+            throw -1; 
         }
         Element *originalHead = _head.next();
         Element *last = _head.prev();
@@ -92,15 +90,7 @@ namespace BOOOS {
         last->next(_head.next());
         _length--;
         return originalHead; 
-        /* if (!_length) {
-            throw 1;
-        }
-        Element* aux = _head.next();
-        _head.prev()->next(aux->next());
-        _head.next(aux->next());
-        _head.next()->prev(_head.prev());
-        --_length;
-        return aux; */
+
     }
 
 
@@ -124,7 +114,6 @@ namespace BOOOS {
             count++;
         }
 
-        // Element not found.
         if (count == _length) {
             throw -3;
         }
@@ -138,32 +127,9 @@ namespace BOOOS {
             _head.prev(temp->prev());
         }
 
-        //delete temp;
-        //temp = NULL;
+
         _length--;
 
-
-        /* Element* temp = _head.next();
-        bool exist = true;
-        if (temp != e) {
-            temp = temp->next();
-            while (temp != e) {
-                temp = temp->next();
-                if (temp == _head.next()) {
-                    exist = false;
-                }
-            }
-        }
-
-        if (exist) {
-            temp->prev()->next(temp->next());
-            temp->next()->prev(temp->prev());
-            delete temp;
-            temp = NULL;
-            _length--; 
-        } else {
-            throw -3;
-        } */
     }
 
     // Private
@@ -180,7 +146,6 @@ namespace BOOOS {
 
         while (count < _length) {
             if (elem == temp) {
-                //break;
                 return temp;
             } else {
                 temp = temp->next();

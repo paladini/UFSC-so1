@@ -64,7 +64,6 @@ namespace Scheduler_Test_Functions {
 		//std::cout << "Jog" << std::endl;
 		delete t3;
 		delete t4;
-		std::cout << "Passo1" << std::endl;
 		Task::self()->exit(0);
 
 		return 0;
