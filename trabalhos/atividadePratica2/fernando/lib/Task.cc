@@ -33,7 +33,6 @@ namespace BOOOS {
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 		this->_tid = __tid_counter;
 		if (nargs > 0) {
-			// __ready.insert(this);
 			insert_ready(this);
 		}
 		__task_counter++;
@@ -83,14 +82,7 @@ namespace BOOOS {
 			}
 			if (s == READY) {
 				if (!__ready.searchB(this)) {
-<<<<<<< HEAD
-					__ready.insert(this);
-=======
-					//std::cout << "READY"<< this->_tid << std::endl;
-					//__ready.insert(this);
 					insert_ready(this);
-					//__task_counter++;
->>>>>>> d825766c413cac079f394be296ed8d8a6fbd553f
 				}
 			}
 		}
