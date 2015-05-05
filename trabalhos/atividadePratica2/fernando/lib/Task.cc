@@ -43,6 +43,12 @@ namespace BOOOS {
 		}
 		__task_counter++;
 		__tid_counter++;
+		if(BOOOS::SCHED_PREEMPT){
+			if(this->rank() < Task::self()->rank()){
+				Task::self()->yield();
+				return;
+			}
+		}
 	}
 
 	Task::~Task() {
@@ -72,7 +78,7 @@ namespace BOOOS {
 	}
 
 	void Task::pass_to(Task * t, State s) {
-		this->nice(this->priority);
+		//Task::self()->nice(this->priority);
 		if (t->_state != SCHEDULER) {
 			t->_state = RUNNING;
 		}
@@ -114,8 +120,8 @@ namespace BOOOS {
 
 	void Task::nice(int priority) {
 		if (-20 <= priority <= 20) {
-			this->rank(priority);
-			//this->priority = this->rank();
+			Task::self()->rank(priority);
+			Task::self()->priority = Task::self()->rank();
 		}
 	}
 

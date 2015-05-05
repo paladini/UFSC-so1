@@ -46,6 +46,7 @@ namespace BOOOS {
 				_state = s;
 			}
 
+			void insert_ready(Task* t);
 
 		private:
 
@@ -57,7 +58,6 @@ namespace BOOOS {
 			static int __tid_counter;
 			static const int _STACK_SIZE = 32768;
 			static 	int __task_counter;
-			void insert_ready(Task* t);
 
 			State _state;
 			int _tid; // task ID

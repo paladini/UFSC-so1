@@ -52,7 +52,7 @@ namespace BOOOS {
             int count = 0;
 
             while(count < _length) {
-                if (elem >= temp) {
+                if (elem->rank() >= temp->rank()) {
                     temp = temp->next();
                 } else {
                     break;
