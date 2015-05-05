@@ -7,6 +7,7 @@
 #define SCHEDULER_CC_
 #include "Scheduler.h"
 #include "Task.h"
+#include "BOOOS.h"
 #include <iostream>
 
 namespace BOOOS {
@@ -16,6 +17,7 @@ namespace BOOOS {
 	Scheduler::Scheduler() : Task(dispatcher, 0, 0) { 
 		this->setState(Task::SCHEDULER);
 	}
+
 	Scheduler::~Scheduler() {
 		delete __dispatcher;
 	}
@@ -25,14 +27,17 @@ namespace BOOOS {
 			__dispatcher = new Scheduler();
 		}
 	}
+
 	Scheduler* Scheduler::self() {
 		return __dispatcher;
 	}
+
 	void Scheduler::dispatcher(void*) {
 
     	while (__ready.length() > 0) {
 			Task *next = self()->choose_next();
 			if (next) {
+				Scheduler::self()->aging();
 				Scheduler::self()->pass_to(next);
 			}
 			if (Task::self()->state() == Task::RUNNING) {
@@ -42,10 +47,22 @@ namespace BOOOS {
 		} 
 		Scheduler::self()->exit(0);
 	}  
+
 	Task * Scheduler::choose_next() {
 		Task* elem = (Task*) __ready.remove();
 		return elem;
 
+	}
+	void Scheduler::aging() {
+		if(BOOOS::SCHED_AGING){
+			Element * elem = __ready.head()->next();
+			bool aux = true;
+			while(elem != __ready.head()->next() || aux) {
+				aux = false;
+				elem->rank(elem->rank()-1);
+				elem = elem->next();
+			}
+		}
 	}
 
 

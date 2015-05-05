@@ -32,6 +32,7 @@ namespace BOOOS {
 		 
 		protected:
 			virtual Task * choose_next();
+			static void aging();
 			static Scheduler * __dispatcher;
 	};
  
