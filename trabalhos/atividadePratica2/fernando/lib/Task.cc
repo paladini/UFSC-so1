@@ -22,8 +22,7 @@ namespace BOOOS {
 	Task::Task() {
 		this->_tid = 0;
 		rank(0);
-		//priority = 0;
-		//this->nice(0);
+
 		this->allocate_stack();
 		__tid_counter++;
 		__task_counter++;
@@ -36,8 +35,7 @@ namespace BOOOS {
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 		this->_tid = __tid_counter;
 		this->rank(0);
-		//this->priority = 0;
-		//this->nice(0);
+
 		if (nargs > 0) {
 			insert_ready(this);
 		}
@@ -99,7 +97,7 @@ namespace BOOOS {
 	}
 
 
-	
+
 
 	void Task::exit(int code) {
 		__task_counter--;
@@ -124,7 +122,6 @@ namespace BOOOS {
 	void Task::nice(int priority) {
 		if (-20 <= priority <= 20) {
 			Task::self()->rank(priority);
-			//Task::self()->priority = Task::self()->rank();
 		}
 	}
 
