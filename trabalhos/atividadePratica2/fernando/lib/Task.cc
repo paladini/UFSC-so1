@@ -21,6 +21,9 @@ namespace BOOOS {
 
 	Task::Task() {
 		this->_tid = 0;
+		rank(0);
+		//priority = 0;
+		//this->nice(0);
 		this->allocate_stack();
 		__tid_counter++;
 		__task_counter++;
@@ -32,6 +35,9 @@ namespace BOOOS {
 		this->allocate_stack();
 		makecontext(&(this->_context), (void (*)(void)) entry_point, nargs, arg);
 		this->_tid = __tid_counter;
+		this->rank(0);
+		//this->priority = 0;
+		//this->nice(0);
 		if (nargs > 0) {
 			insert_ready(this);
 		}
@@ -66,7 +72,7 @@ namespace BOOOS {
 	}
 
 	void Task::pass_to(Task * t, State s) {
-
+		this->nice(this->priority);
 		if (t->_state != SCHEDULER) {
 			t->_state = RUNNING;
 		}
@@ -74,13 +80,7 @@ namespace BOOOS {
 		if (this->_state != SCHEDULER) {
 			this->_state = s;
 
-			if (s == FINISHING) {
-				if (__ready.searchB(this)) {
-					__ready.remove(this);
-				}
-				
-			}
-			if (s == READY) {
+			if (s == READY && Task::self() != __main) {
 				if (!__ready.searchB(this)) {
 					insert_ready(this);
 				}
@@ -115,14 +115,15 @@ namespace BOOOS {
 	void Task::nice(int priority) {
 		if (-20 <= priority <= 20) {
 			this->rank(priority);
+			//this->priority = this->rank();
 		}
 	}
 
 	void Task::insert_ready(Task* t) {
 		if (BOOOS::SCHED_POLICY == BOOOS::SCHED_PRIORITY) {
-			Task::__ready.insert_ordered(t);
+			__ready.insert_ordered(t);
 		} else if (BOOOS::SCHED_POLICY == BOOOS::SCHED_FCFS) {
-			Task::__ready.insert(t);
+			__ready.insert(t);
 		}
 	}
 

@@ -65,6 +65,7 @@ namespace BOOOS {
 			char* _stack;
 		protected:
 			static Queue __ready;
+			int priority;
 
 	};
 } /* namespace BOOOS */

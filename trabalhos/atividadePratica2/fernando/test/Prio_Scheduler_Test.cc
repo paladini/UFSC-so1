@@ -86,6 +86,7 @@ namespace Scheduler_Test_Functions {
 			std::stringstream str;
 			str << (char*)arg << " " << i << endl;
 			log.push(str.str());
+			//std::cout << Task::self()->tid() << std::endl;
 			Task::self()->nice(2*Task::self()->tid());
 			Task::self()->yield();
 		}
@@ -183,7 +184,7 @@ namespace Scheduler_Test_Functions {
 		while(Task::count() > 2) {
 			Task::self()->nice(20);
 			log.push("Main yielding...\n");
-			std::cout << "No while" << std::endl;
+			//std::cout << "No while" << std::endl;
 			Task::self()->yield();
 		}
 
@@ -194,7 +195,11 @@ namespace Scheduler_Test_Functions {
 		delete pung;
 
 		log.push("Main End\n");
-
+		while (!log.empty())
+  		{
+    		std::cout << ' ' << log.front();
+    		log.pop();
+  		}
 		ASSERT(log.size() == correct.size(), 1);
 
 		string str1,str2;
