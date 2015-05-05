@@ -1,4 +1,4 @@
-/*
+/* Emmanuel Podestá Junior, Fernando Paladini.
  * Scheduler.h
  *
  *  Created on: Mar 21, 2014
