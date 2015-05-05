@@ -15,7 +15,7 @@ namespace BOOOS {
 	Scheduler* Scheduler::__dispatcher = 0;
 
 	Scheduler::Scheduler() : Task(dispatcher, 0, 0) { 
-		this->setState(Task::SCHEDULER);
+		this->_state = Task::SCHEDULER;
 	}
 
 	Scheduler::~Scheduler() {

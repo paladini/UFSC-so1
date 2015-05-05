@@ -37,14 +37,9 @@ namespace BOOOS {
 			static Task * self() { return (Task*) __running; }
 			static void init();
 
-			void setTid(int tid) {
-				_tid = tid;
-			}
+
 			void nice(int priority);
 
-			void setState(State s) {
-				_state = s;
-			}
 
 			void insert_ready(Task* t);
 
@@ -58,14 +53,14 @@ namespace BOOOS {
 			static int __tid_counter;
 			static const int _STACK_SIZE = 32768;
 			static 	int __task_counter;
-
-			State _state;
-			int _tid; // task ID
 			ucontext_t _context;
 			char* _stack;
+
 		protected:
-			static Queue __ready;
+			State _state;
+			int _tid; // task ID
 			int priority;
+			static Queue __ready;
 
 	};
 } /* namespace BOOOS */
