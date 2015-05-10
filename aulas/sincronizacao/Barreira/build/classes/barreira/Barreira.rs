@@ -1,0 +1,3 @@
+Barreira$Coordenador
+Barreira
+Barreira$Trabalhador
