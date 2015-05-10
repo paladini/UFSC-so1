@@ -4,6 +4,8 @@ import java.util.concurrent.Semaphore;
 
 public class Sincronizacao_simples {
     
+    Semaphore sBinario = new Semaphore(1);
+
     class Processo extends Thread {
         Processo(int num) {_num=num; System.out.println("Processo "+_num+" criado");}
         public void run() {
@@ -11,15 +13,18 @@ public class Sincronizacao_simples {
                 //processo faz qualquer coisa
                 try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
                 
-                //processo quer executar a RC
-                
-                //RC
-                System.out.println("Processo "+_num+" entrou na RC....");
-                try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
-                System.out.println("... Processo "+_num+" vai sair da RC");
-                
-                //processo saiu da RC
-   
+                try {
+                    //processo quer executar a RC
+                    sBinario.acquire();
+
+                    //RC
+                    System.out.println("Processo "+_num+" entrou na RC....");
+                    try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
+                    System.out.println("... Processo "+_num+" vai sair da RC");
+                    
+                    //processo saiu da RC
+                    sBinario.release();
+                } catch (InterruptedException e) {} 
             }
         }
         private int _num;
