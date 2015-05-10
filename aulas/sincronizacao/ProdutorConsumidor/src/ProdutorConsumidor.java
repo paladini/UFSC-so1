@@ -12,6 +12,9 @@ public class ProdutorConsumidor {
     int posicaoProduzir = 0;
     int posicaoConsumir = 0;
     
+    Semaphore cheio = new Semaphore(0);
+    Semaphore vazio = new Semaphore(TAM_VETOR);
+    Semaphore mutex = new Semaphore(1);
     
     class Produtor extends Thread {
         Produtor(int num) {_num=num; System.out.println("Produtor "+_num+" criado");}
@@ -20,16 +23,23 @@ public class ProdutorConsumidor {
                 //produtor faz qualquer coisa
                 try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
                 
-                //produtor quer produzir
+                try {
+                    //produtor quer produzir
+                    cheio.release();
 
-                //produtor produz
-                System.out.println("Produtor "+_num+" come�a a produzir o valor "+i+"...");
-                valor[(posicaoProduzir++)%TAM_VETOR] = i;
-                try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
-                System.out.println("... Produtor "+_num+" termina de produzir");
-                
-                //termina de produzir
+                    //produtor produz
+                    mutex.acquire();
 
+                    System.out.println("Produtor "+_num+" começa a produzir o valor "+i+"...");
+                    valor[(posicaoProduzir++)%TAM_VETOR] = i;
+                    try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
+                    System.out.println("... Produtor "+_num+" termina de produzir");
+
+                    mutex.release();
+                    
+                    //termina de produzir
+                    vazio.acquire();
+                } catch (InterruptedException e) {}
                 
             }
         }
@@ -44,16 +54,21 @@ public class ProdutorConsumidor {
                 //faz qualquer coisa
                 try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
                 
-                //consumidor quer consumir
-
-                        
-                //consumidor consome
-				consumido = valor[(posicaoConsumir++)%TAM_VETOR];
-                System.out.println("Consumidor "+_num+" come�a a consumir o valor "+consumido+"...");
-                try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
-                System.out.println("... Consumidor "+_num+" termina de consumir");
-                
-                //termina de consumir
+                try {
+                    //consumidor quer consumir
+                    cheio.acquire();
+                            
+                    //consumidor consome
+                    mutex.acquire();
+    				consumido = valor[(posicaoConsumir++)%TAM_VETOR];
+                    System.out.println("Consumidor "+_num+" começa a consumir o valor "+consumido+"...");
+                    try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
+                    System.out.println("... Consumidor "+_num+" termina de consumir");
+                    mutex.release();
+                    
+                    //termina de consumir
+                    vazio.release();
+                } catch(InterruptedException e) {}
 
             }
         }
@@ -64,6 +79,7 @@ public class ProdutorConsumidor {
         int numConsumidores = 1;//(int)(Math.random()*30) +5;
         int numProdutores = 1;//(int)(Math.random()*30) +5;
 
+        valor = new int[TAM_VETOR];
 		for (int i=0; i<TAM_VETOR; i++) {
 			valor[i]=-9999;
 		}

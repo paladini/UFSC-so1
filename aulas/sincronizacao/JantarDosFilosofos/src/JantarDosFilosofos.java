@@ -11,27 +11,41 @@
 import java.util.concurrent.Semaphore;
 
 
+// INCOMPLETO
 
 public class JantarDosFilosofos {
 
-    class Filosofo extends Thread {
-       Filosofo(int i){_num=i; System.out.println("Filosofo "+i+" criado.");}    
-       public void run() {
-           for (int i=0;i<10;i++){
-               //faz qualquer coisa
-               try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
-               
-               //quer comer
-               
-               //come
-               System.out.println("Fil�sofo "+_num+" come�a a comer pela "+i+"a vez...");
-               try{Thread.sleep(200);}catch(Exception e){}
-               System.out.println("...Fil�sofo "+_num+" termina de comer pela "+i+"a vez");
-               
-               //termina de comer
+    Semaphore[] garfos = new Semaphore[5];
+    //Semaphore[] exclusaoMutua = new Semaphore[2];
 
-           }
-       }
+    class Filosofo extends Thread {
+        Filosofo(int i){_num=i; System.out.println("Filosofo "+i+" criado.");}    
+        public void run() {
+            for (int i=0;i<10;i++){
+                //faz qualquer coisa
+                try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
+                
+                //exclusaoMutua[(_num%2) ^ 1].acquire();
+                try {
+                    //quer comer
+                    if (garfos[(_num%5)-1].availablePermits() == 1 && garfos[_num%5].availablePermits() == 1) {
+                        
+                        garfos[(_num-1)%5].acquire();
+                        garfos[_num%5].acquire();
+
+                        //come
+                        System.out.println("Fil�sofo "+_num+" come�a a comer pela "+i+"a vez...");
+                        try{Thread.sleep(200);}catch(Exception e){}
+                        System.out.println("...Fil�sofo "+_num+" termina de comer pela "+i+"a vez");
+                       
+                        //termina de comer
+                        garfos[(_num-1)%5].release();
+                        garfos[_num%5].release();
+                    }
+                } catch (InterruptedException e) {}
+
+            }
+        }
 
        private int _num;
     }
@@ -41,7 +55,10 @@ public class JantarDosFilosofos {
         
         Filosofo[] filosofo = new Filosofo[5];
        
-        for(int i=0;i<5;i++) filosofo[i] = new Filosofo(i);
+        for(int i=0;i<5;i++) {
+            filosofo[i] = new Filosofo(i);
+            garfos[i] = new Semaphore(1);
+        }
         for(int i=0;i<5;i++) filosofo[i].start(); 
     }
     
