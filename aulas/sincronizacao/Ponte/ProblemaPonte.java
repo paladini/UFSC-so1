@@ -48,28 +48,28 @@ public class ProblemaPonte {
                 }
                 mutexAB.release();
 
-                try{Thread.sleep((long) (Math.random()*100));}catch(InterruptedException e){}
+                // try{Thread.sleep((long) (Math.random()*100));}catch(InterruptedException e){}
 
-                System.out.println("Pessoa "+id+" quer atravessar de B para A");
-                try{mutexBA.acquire();} catch(Exception e) {}
-                if (atravessandoBA==0) {
-                    try{semPonte.acquire();} catch(Exception e) {}
-                    System.out.println("Ninguém está atravessando. Começa a atravessar de B para A.");
-                }
-                atravessandoBA++;
-                mutexBA.release();
-                // atravessa_ponte_de_B_para_A();
-                System.out.println("Pessoa "+id+" atravessando de B para A");
-                try{Thread.sleep((long) (Math.random()*100));}catch(InterruptedException e){}
-                // terminou de atravessar
-                System.out.println("Pessoa "+id+" terminou de atravessar de B para A");
-                try{mutexBA.acquire();} catch(Exception e) {}
-                atravessandoBA--;
-                if (atravessandoBA==0) {
-                   System.out.println("Ninguém mais está atravessando de B para A. Libera a ponte.");
-                   try{semPonte.release();} catch(Exception e) {}
-                }
-                mutexBA.release();
+                // System.out.println("Pessoa "+id+" quer atravessar de B para A");
+                // try{mutexBA.acquire();} catch(Exception e) {}
+                // if (atravessandoBA==0) {
+                //     try{semPonte.acquire();} catch(Exception e) {}
+                //     System.out.println("Ninguém está atravessando. Começa a atravessar de B para A.");
+                // }
+                // atravessandoBA++;
+                // mutexBA.release();
+                // // atravessa_ponte_de_B_para_A();
+                // System.out.println("Pessoa "+id+" atravessando de B para A");
+                // try{Thread.sleep((long) (Math.random()*100));}catch(InterruptedException e){}
+                // // terminou de atravessar
+                // System.out.println("Pessoa "+id+" terminou de atravessar de B para A");
+                // try{mutexBA.acquire();} catch(Exception e) {}
+                // atravessandoBA--;
+                // if (atravessandoBA==0) {
+                //    System.out.println("Ninguém mais está atravessando de B para A. Libera a ponte.");
+                //    try{semPonte.release();} catch(Exception e) {}
+                // }
+                // mutexBA.release();
 
             }
             
