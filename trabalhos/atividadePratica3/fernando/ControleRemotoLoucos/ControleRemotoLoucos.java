@@ -22,6 +22,7 @@ public class ControleRemotoLoucos {
         Paciente(int num) {
             _num=num; 
             _canalFavorito = (int)(Math.random()*4)+1;
+            _mudouCanal = false;
             System.out.println("Louco "+_num+" criado com canal favorito "+_canalFavorito);
         }
         
@@ -29,7 +30,7 @@ public class ControleRemotoLoucos {
             for(int i=0; i<100; i++) {
 
                 // Louco faz qualquer coisa
-                try{Thread.sleep((int)Math.random()*250);}catch(Exception e){}
+                try{Thread.sleep((int)Math.random()*200);}catch(Exception e){}
 
                 /* O while é necessário pois quando o CR for pego, é necessário que os demais
                  * loucos verifiquem se esse é o canal preferido deles.
@@ -49,8 +50,10 @@ public class ControleRemotoLoucos {
                     if (assistindo == 0){
                         lock.release();
                         try{controleRemoto.acquire();}catch(InterruptedException e){} // tenta pegar o CR.
+                        _mudouCanal = true;
                         try{lock.acquire();}catch(InterruptedException e){} // agora já pegou o CR.
                         canalTV = _canalFavorito;
+                        assistindo++;
                         System.out.println("Louco " +_num+" pega o controle remoto e coloca no canal "+canalTV+"...");
                     }
 
@@ -58,12 +61,19 @@ public class ControleRemotoLoucos {
                     esperando.release();
                     try{lock.acquire();}catch(InterruptedException e){} // precisa adquirir o lock de "canalTV" (condição do while)
                 }
-                assistindo++;
-                lock.release();
+                lock.release();    
+                
+                if (!_mudouCanal) {
+                    try{lock.acquire();}catch(InterruptedException e){}
+                    assistindo++;
+                    lock.release();
+                } else {
+                    _mudouCanal = false;
+                }
 
                 // Louco vê televisão.
                 System.out.println("\tLouco "+_num+" comeca a ver televisao no canal "+canalTV+"...");
-                try{Thread.sleep((int)Math.random()*250);}catch(Exception e){}
+                try{Thread.sleep((int)Math.random()*200);}catch(Exception e){}
                 System.out.println("\t... Louco "+_num+" termina de ver televisao no canal "+canalTV);
                 
                 // Termina de ver televisão. 
@@ -81,6 +91,7 @@ public class ControleRemotoLoucos {
         }
         private int _num;
         private int _canalFavorito;
+        private boolean _mudouCanal;
     }
     
     

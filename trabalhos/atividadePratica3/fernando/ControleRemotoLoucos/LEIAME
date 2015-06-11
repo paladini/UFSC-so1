@@ -1,4 +1,4 @@
-As soluções desenvolvidas podem ser executada rodando os comandos previamente especificados no trabalho ("make clean", "make" e "make run").
+As soluções desenvolvidas podem ser executada rodando os comandos previamente especificados no trabalho ("make clean", "make" e "make run"). Aumentei o tempo de execução randômico para multiplicar por 200 e não por 100 (pois não estava conseguindo simular todas as condições que eu queria em 100).
 
 =================================
 
@@ -6,7 +6,7 @@ Eu fiz duas soluções para o problema do controle remoto dos loucos:
 
 [1ª Solução - "Padrão"] 
 Disponível na pasta raiz do trabalho (a mesma pasta deste LEIAME). 
-Essa solução foi feita com base na ajuda fornecida pela professor na sua sala, mas não fiquei satisfeito em ter de utilizar um loop e acabei por desenvolver a segunda solução. Como essa solução teve seu apoio para ser construída, deixo ela como a "solução padrão" (oficial) deste trabalho.
+Essa solução foi feita com base na ajuda fornecida pela professor no horário de atendimento, mas não fiquei satisfeito em ter de utilizar um loop e acabei por desenvolver a segunda solução. Como essa solução teve seu apoio para ser construída, deixo ela como a "solução padrão" (oficial) deste trabalho (mesmo que tenha tido que modificar muitas coisas).
 
 [2ª Solução]
 Disponível em "solucaoAlternativa/".
