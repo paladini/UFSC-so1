@@ -21,57 +21,49 @@ public class ControleRemotoLoucos2 {
     class Paciente extends Thread {
         Paciente(int num) {
             _num=num; 
-            _canalFavorito = (int)(Math.random()*5)+1;
+            _canalFavorito = (int)(Math.random()*4)+1;
             System.out.println("Louco "+_num+" criado com canal favorito "+_canalFavorito);
         }
         
         public void run() {
             for(int i=0; i<10; i++) {
-                //louco faz qualquer coisa
-                try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
-                
-                // try{lock.acquire();}catch(InterruptedException e){}
-                // while(canalTV != _canalFavorito) {
-                //     lock.release();
-                //     esperando.acquire();
-                //     if (assistindo == 0){
-                //         controleRemoto.acquire();
-                //         canalTV = _canalFavorito;
-                //     }
-                //     esperando.release();
-                //     try{lock.acquire();}catch(InterruptedException e){}
-                // }
 
-                while(true) {
-                    try{lock.acquire();}catch(InterruptedException e){}
-                    if (canalTV != _canalFavorito) {
-                        lock.release();
+                // Louco faz qualquer coisa
+                try{Thread.sleep((int)Math.random()*250);}catch(Exception e){}
 
-                        // Apenas um paciente pode obter o controle remoto por vez.
-                        try{esperando.acquire();}catch(InterruptedException e){}
-                        if (assistindo == 0) {
-                            try{controleRemoto.acquire();}catch(InterruptedException e){}
-                            canalTV = _canalFavorito;
-                            System.out.println("Louco " +_num+" pega o controle remoto e coloca no canal "+canalTV+"...");
-                        }
-                        esperando.release();
-                        continue;
-                    }
-                    assistindo++;
+                try{lock.acquire();}catch(InterruptedException e){}
+                while(canalTV != _canalFavorito) {
                     lock.release();
-                    break;
+
+                    // Só um paciente pode tentar adquirir o CR, o resto fica aguardando.
+                    // Vai ficar preso aqui, por isso não tem espera ocupada no "while".
+                    try{esperando.acquire();}catch(InterruptedException e){}
+
+                    try{lock.acquire();}catch(InterruptedException e){}
+                    if (assistindo == 0){
+                        lock.release();
+                        try{controleRemoto.acquire();}catch(InterruptedException e){}
+
+                        // Pegou o controle remoto
+                        try{lock.acquire();}catch(InterruptedException e){}
+                        canalTV = _canalFavorito;
+                        System.out.println("Louco " +_num+" pega o controle remoto e coloca no canal "+canalTV+"...");
+                    }
+
+                    lock.release();
+                    esperando.release();
+                    try{lock.acquire();}catch(InterruptedException e){} // utilizado na condição do while
                 }
+                assistindo++;
+                lock.release();
 
-                // assistindo++;
-                // lock.release();
-
-                //louco ve televisao
+                // Louco vê televisão.
                 System.out.println("\tLouco "+_num+" comeca a ver televisao no canal "+canalTV+"...");
-                try{Thread.sleep((int)Math.random()*100);}catch(Exception e){}
+                try{Thread.sleep((int)Math.random()*250);}catch(Exception e){}
                 System.out.println("\t... Louco "+_num+" termina de ver televisao no canal "+canalTV);
                 
-                //termina de ver televisao. 
-                //Se ningu�m quer ver aquele canal, solta controle remoto
+                // Termina de ver televisão. 
+                // Se ninguém quer ver aquele canal, solta CR.
                 try{lock.acquire();}catch(InterruptedException e){}
                 assistindo--;
                 if (assistindo == 0) {
