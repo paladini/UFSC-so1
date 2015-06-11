@@ -1,0 +1,15 @@
+As soluções desenvolvidas podem ser executada rodando os comandos previamente especificados no trabalho ("make clean", "make" e "make run").
+
+=================================
+
+Eu fiz duas soluções para o problema do controle remoto dos loucos:
+
+[1ª Solução - "Padrão"] 
+Disponível na pasta raiz do trabalho (a mesma pasta deste LEIAME). 
+Essa solução foi feita com base na ajuda fornecida pela professor na sua sala, mas não fiquei satisfeito em ter de utilizar um loop e acabei por desenvolver a segunda solução. Como essa solução teve seu apoio para ser construída, deixo ela como a "solução padrão" (oficial) deste trabalho.
+
+[2ª Solução]
+Disponível em "solucaoAlternativa/".
+Utiliza um vetor de semáforos (um semáforo para cada canal) e aparentemente ficou uma solução mais elegante. Se possível dê uma olhada nela, queria saber se errei em algo e também qual é a melhor solução para este problema. 
+
+Se ficar com dúvidas estou disponível para esclarecimentos. 
